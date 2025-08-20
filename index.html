@@ -2,64 +2,408 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Haxpedia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haxpedia - Haxball Ansiklopedisi</title>
     <style>
-        body { background: #1a0b2e; color: white; font-family: Arial; padding: 2rem; }
-        .auth-btn { background: #10b981; border: none; padding: 1rem 2rem; color: white; border-radius: 8px; cursor: pointer; }
-        .team-card { background: rgba(255,255,255,0.1); padding: 1rem; margin: 1rem 0; border-radius: 8px; display: flex; align-items: center; gap: 1rem; }
-        .team-logo { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
-        input, select, textarea { width: 100%; padding: 0.5rem; margin: 0.5rem 0; background: rgba(255,255,255,0.1); border: 1px solid #10b981; color: white; border-radius: 4px; }
-        #adminPanel { display: none; background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin: 2rem 0; }
-        .logo-upload { border: 2px dashed #10b981; padding: 2rem; text-align: center; cursor: pointer; border-radius: 8px; margin: 1rem 0; }
-        .logo-preview { max-width: 150px; max-height: 150px; border-radius: 8px; margin: 1rem 0; }
-        .submit-btn { background: #10b981; border: none; padding: 1rem 2rem; color: white; border-radius: 8px; cursor: pointer; width: 100%; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e5e7eb;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+        }
+
+        .main-content {
+            background: rgba(15, 15, 35, 0.6);
+            border: 1px solid rgba(229, 231, 235, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .sidebar {
+            background: rgba(15, 15, 35, 0.6);
+            border: 1px solid rgba(229, 231, 235, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            height: fit-content;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f9fafb;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8), rgba(26, 26, 46, 0.6));
+            border: 1px solid rgba(229, 231, 235, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .team-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(34, 197, 94, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: rgba(34, 197, 94, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .team-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f9fafb;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-meta {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .admin-panel {
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #f3f4f6;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(229, 231, 235, 0.2);
+            border-radius: 8px;
+            color: #f9fafb;
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #6b7280;
+        }
+
+        .logo-upload {
+            border: 2px dashed rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .logo-upload:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .logo-preview {
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .message.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(229, 231, 235, 0.1);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #22c55e;
+            display: block;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #6b7280;
+            padding: 3rem 2rem;
+            background: rgba(15, 15, 35, 0.4);
+            border-radius: 8px;
+            border: 1px dashed rgba(229, 231, 235, 0.2);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Haxpedia - Haxball Ansiklopedisi</h1>
-    
-    <div id="auth">
-        <button class="auth-btn" onclick="login()">Giriş Yap</button>
-        <div id="userInfo" style="display:none;">
-            <span id="userName"></span>
-            <button onclick="logout()">Çıkış</button>
-        </div>
-    </div>
-
-    <div id="teams">
-        <h2>Takımlar</h2>
-        <div id="teamsList">Takımlar yükleniyor...</div>
-    </div>
-
-    <div id="adminPanel">
-        <h2>Yeni Takım Ekle</h2>
-        <div id="messages"></div>
-        
-        <label>Takım Adı:</label>
-        <input id="teamName" placeholder="Örn: Galatasaray HB" required>
-        
-        <label>Lig:</label>
-        <select id="teamLeague" required>
-            <option value="">Lig Seçin</option>
-            <option>Süper Lig</option>
-            <option>1. Lig</option>
-            <option>2. Lig</option>
-        </select>
-        
-        <label>Menajeri:</label>
-        <input id="teamManager" placeholder="Menajerin adı">
-        
-        <label>Takım Logosu:</label>
-        <div class="logo-upload" onclick="document.getElementById('logoInput').click()">
-            <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
-            <div id="logoPreview">
-                <div style="font-size: 3rem;">📸</div>
-                <div>Logo yüklemek için tıklayın</div>
-                <div style="font-size: 0.9rem; color: #aaa;">PNG, JPG desteklenir (Max 1MB)</div>
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">Haxpedia</a>
+            <div class="auth-section">
+                <button class="auth-btn" id="loginBtn" onclick="login()">Giriş Yap</button>
+                <div class="user-info" id="userInfo" style="display:none;">
+                    <span id="userName"></span>
+                    <button class="auth-btn" onclick="logout()">Çıkış</button>
+                </div>
             </div>
         </div>
-        
-        <button class="submit-btn" onclick="addTeam()">Takım Ekle</button>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <div id="adminPanel" class="admin-panel">
+                <h2 class="section-title">Yeni Takım Ekle</h2>
+                <div id="messages"></div>
+                
+                <div class="form-group">
+                    <label class="form-label">Takım Adı</label>
+                    <input class="form-input" id="teamName" placeholder="Örn: Galatasaray HB" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Lig</label>
+                    <select class="form-select" id="teamLeague" required>
+                        <option value="">Lig Seçin</option>
+                        <option>Süper Lig</option>
+                        <option>1. Lig</option>
+                        <option>2. Lig</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Menajeri</label>
+                    <input class="form-input" id="teamManager" placeholder="Menajerin adı">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Takım Logosu</label>
+                    <div class="logo-upload" onclick="document.getElementById('logoInput').click()">
+                        <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
+                        <div id="logoPreview">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.7;">📸</div>
+                            <div style="color: #22c55e; font-weight: 500;">Logo yüklemek için tıklayın</div>
+                            <div style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">PNG, JPG desteklenir (Max 1MB)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="addTeam()">Takım Ekle</button>
+            </div>
+
+            <div>
+                <h2 class="section-title">Takımlar</h2>
+                <div class="team-grid" id="teamsList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚽</div>
+                        <div>Takımlar yükleniyor...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <h3 class="section-title">İstatistikler</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="teamCount">0</span>
+                    <div class="stat-label">Takım</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="userCount">1</span>
+                    <div class="stat-label">Admin</div>
+                </div>
+            </div>
+
+            <h3 class="section-title">Sistem Durumu</h3>
+            <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 8px; padding: 1rem;">
+                <div style="color: #22c55e; font-weight: 500; margin-bottom: 0.5rem;">Sistem Aktif</div>
+                <div style="color: #9ca3af; font-size: 0.85rem;">Tüm servisleri çalışıyor</div>
+            </div>
+        </aside>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -92,9 +436,7 @@
 
         function showMessage(text, type) {
             var messagesDiv = document.getElementById('messages');
-            messagesDiv.innerHTML = '<div style="padding:1rem;margin:1rem 0;border-radius:8px;background:' + 
-                (type === 'error' ? 'rgba(255,0,0,0.2);border:1px solid red;' : 'rgba(0,255,0,0.2);border:1px solid green;') + 
-                '">' + text + '</div>';
+            messagesDiv.innerHTML = '<div class="message ' + type + '">' + text + '</div>';
             setTimeout(() => messagesDiv.innerHTML = '', 5000);
         }
 
@@ -102,7 +444,6 @@
             var file = event.target.files[0];
             if (!file) return;
             
-            // 1MB limit (Base64 makes files bigger)
             if (file.size > 1 * 1024 * 1024) {
                 showMessage('Logo dosyası 1MB\'dan küçük olmalıdır!', 'error');
                 return;
@@ -115,9 +456,9 @@
             
             var reader = new FileReader();
             reader.onload = function(e) {
-                selectedLogo = e.target.result; // Base64 string
+                selectedLogo = e.target.result;
                 document.getElementById('logoPreview').innerHTML = 
-                    '<img src="' + e.target.result + '" class="logo-preview" alt="Logo"><div style="color:#10b981;margin-top:1rem;">Logo hazır - ' + file.name + '</div><div style="font-size:0.9rem;color:#aaa;">Değiştirmek için tekrar tıklayın</div>';
+                    '<img src="' + e.target.result + '" class="logo-preview" alt="Logo"><div style="color:#22c55e;margin-top:1rem;font-weight:500;">Logo hazır</div><div style="font-size:0.85rem;color:#6b7280;">Değiştirmek için tekrar tıklayın</div>';
             };
             reader.readAsDataURL(file);
         }
@@ -138,18 +479,17 @@
                 name: name,
                 league: league,
                 manager: manager,
-                logo: selectedLogo || '', // Base64 string direkt kaydediliyor
+                logo: selectedLogo || '',
                 addedBy: currentUser.email,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 showMessage('Takım başarıyla eklendi!', 'success');
                 
-                // Form temizle
                 document.getElementById('teamName').value = '';
                 document.getElementById('teamLeague').value = '';
                 document.getElementById('teamManager').value = '';
                 document.getElementById('logoInput').value = '';
-                document.getElementById('logoPreview').innerHTML = '<div style="font-size: 3rem;">📸</div><div>Logo yüklemek için tıklayın</div><div style="font-size: 0.9rem; color: #aaa;">PNG, JPG desteklenir (Max 1MB)</div>';
+                document.getElementById('logoPreview').innerHTML = '<div style="font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.7;">📸</div><div style="color: #22c55e; font-weight: 500;">Logo yüklemek için tıklayın</div><div style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">PNG, JPG desteklenir (Max 1MB)</div>';
                 selectedLogo = null;
                 
                 loadTeams();
@@ -161,37 +501,53 @@
         function loadTeams() {
             db.collection('teams').orderBy('createdAt', 'desc').get().then(snapshot => {
                 var html = '';
+                var teamCount = 0;
+                
                 if (snapshot.empty) {
-                    html = '<div style="text-align:center;color:#aaa;padding:2rem;">Henüz takım eklenmemiş.</div>';
+                    html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-top:0.5rem;">İlk takımı eklemek için yukarıdaki formu kullanın</div></div>';
                 } else {
                     snapshot.forEach(doc => {
                         var team = doc.data();
+                        teamCount++;
+                        
                         var logoHtml = team.logo ? 
                             '<img src="' + team.logo + '" class="team-logo" alt="' + team.name + '">' : 
                             '<div class="team-logo">⚽</div>';
                         
-                        html += '<div class="team-card">' + logoHtml + 
-                            '<div><h3>' + team.name + '</h3><p>' + team.league + 
-                            (team.manager ? ' • ' + team.manager : '') + 
-                            '</p><small style="color:#aaa;">' + team.addedBy + ' tarafından eklendi</small></div></div>';
+                        html += '<div class="team-card">' +
+                            '<div class="team-header">' + logoHtml +
+                            '<div class="team-info">' +
+                            '<h3>' + team.name + '</h3>' +
+                            '<div class="team-meta">' + team.league + 
+                            (team.manager ? ' • ' + team.manager : '') + '</div>' +
+                            '</div></div>' +
+                            '<div style="color:#6b7280;font-size:0.85rem;margin-top:0.5rem;">' + 
+                            team.addedBy + ' tarafından eklendi</div></div>';
                     });
                 }
+                
                 document.getElementById('teamsList').innerHTML = html;
+                document.getElementById('teamCount').textContent = teamCount;
             }).catch(err => {
-                document.getElementById('teamsList').innerHTML = '<div style="color:red;">Yükleme hatası: ' + err.message + '</div>';
+                document.getElementById('teamsList').innerHTML = '<div class="empty-state"><div style="color:#ef4444;">Yükleme hatası: ' + err.message + '</div></div>';
             });
         }
 
         auth.onAuthStateChanged(user => {
             currentUser = user;
             if (user) {
-                document.getElementById('auth').innerHTML = '<span>' + user.email + '</span> <button onclick="logout()">Çıkış</button>';
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('userInfo').style.display = 'flex';
+                document.getElementById('userName').textContent = user.email.split('@')[0];
+                
                 if (user.email === 'evrenalbayrak96@gmail.com') {
                     document.getElementById('adminPanel').style.display = 'block';
+                    document.getElementById('userName').textContent += ' (Yönetici)';
                 }
                 loadTeams();
             } else {
-                document.getElementById('auth').innerHTML = '<button class="auth-btn" onclick="login()">Giriş Yap</button>';
+                document.getElementById('loginBtn').style.display = 'block';
+                document.getElementById('userInfo').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'none';
                 loadTeams();
             }
