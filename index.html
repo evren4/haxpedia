@@ -253,8 +253,8 @@
             <a href="#" class="logo">⚽ Haxpedia</a>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#" onclick="showSection('teams')" class="active">Takımlar</a></li>
-                    <li><a href="#" onclick="showSection('admin')" id="adminTab" style="display: none;">Yönetim</a></li>
+                    <li><a href="#" data-section="teams" class="nav-link active">Takımlar</a></li>
+                    <li><a href="#" data-section="admin" class="nav-link" id="adminTab" style="display: none;">Yönetim</a></li>
                 </ul>
             </nav>
             <div class="auth-section">
@@ -298,7 +298,7 @@
             <div class="admin-panel active">
                 <h3 class="section-title">➕ Takım Ekle</h3>
                 <div id="messages"></div>
-                <form onsubmit="addTeam(event)">
+                <form id="teamForm">
                     <div class="form-group">
                         <label for="teamName">Takım Adı:</label>
                         <input type="text" id="teamName" placeholder="Örn: Galatasaray HB" required>
@@ -322,8 +322,8 @@
                     </div>
                     <div class="form-group">
                         <label for="logoInput">Takım Logosu:</label>
-                        <div style="border: 2px dashed rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s ease;" id="logoUploadArea" onclick="document.getElementById('logoInput').click()">
-                            <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
+                        <div style="border: 2px dashed rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="logoUploadArea">
+                            <input type="file" id="logoInput" accept="image/*" style="display: none;">
                             <div id="logoPreview">
                                 <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
                                 <div style="color: #10b981;">Logo yüklemek için tıklayın</div>
