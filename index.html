@@ -449,7 +449,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        // Global değişkenler - BU SATIRLAR EKSİK!
+
+        // Admin listesi - BU EKSIK!
+const ADMIN_EMAILS = [
+    'evrenalbayrak96@gmail.com',
+    'admin@haxpedia.com'
+];
+        // Global değişkenler 
 let currentUser = null;
 let isAdmin = false;
         let isDemo = false; // Artık gerçek Firebase kullanıyoruz
@@ -476,7 +482,7 @@ let isAdmin = false;
             }
         ];
 
-        let currentUser = null;
+        
 
         // Global fonksiyonlar
         window.signInWithGoogle = async function() {
