@@ -320,6 +320,17 @@
                         <label for="teamDescription">Açıklama:</label>
                         <textarea id="teamDescription" rows="3" placeholder="Takım hakkında kısa bilgi..."></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="logoInput">Takım Logosu:</label>
+                        <div style="border: 2px dashed rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s ease;" id="logoUploadArea" onclick="document.getElementById('logoInput').click()">
+                            <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
+                            <div id="logoPreview">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                                <div style="color: #10b981;">Logo yüklemek için tıklayın</div>
+                                <div style="color: #9ca3af; font-size: 0.9rem; margin-top: 0.5rem;">PNG, JPG, GIF desteklenir (Max 5MB)</div>
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="submit-btn">Takım Ekle</button>
                 </form>
             </div>
@@ -421,8 +432,68 @@
             event.target.classList.add('active');
         }
 
-        // Add team
-        function addTeam(event) {
+        // Logo preview function
+        function previewLogo(event) {
+            console.log('Logo seçildi');
+            const file = event.target.files[0];
+            
+            if (!file) return;
+            
+            // Dosya boyutu kontrolü (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('Logo dosyası 5MB\'dan küçük olmalıdır!', 'error');
+                return;
+            }
+            
+            // Dosya tipi kontrolü
+            if (!file.type.startsWith('image/')) {
+                showMessage('Sadece resim dosyaları yüklenebilir!', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const logoPreview = document.getElementById('logoPreview');
+                logoPreview.innerHTML = `
+                    <img src="${e.target.result}" style="max-width: 150px; max-height: 150px; border-radius: 8px; object-fit: cover;" alt="Logo Önizleme">
+                    <div style="color: #10b981; margin-top: 1rem;">Logo yüklendi - ${file.name}</div>
+                    <div style="color: #9ca3af; font-size: 0.9rem;">Değiştirmek için tekrar tıklayın</div>
+                `;
+                
+                // Upload area stilini güncelle
+                document.getElementById('logoUploadArea').style.borderColor = '#10b981';
+                document.getElementById('logoUploadArea').style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Logo upload function
+        async function uploadLogo(file) {
+            console.log('Logo yükleniyor:', file.name);
+            
+            try {
+                // Dosya adını unique yap
+                const fileName = `team-logos/${Date.now()}_${file.name}`;
+                const storageRef = storage.ref(fileName);
+                
+                // Upload progress göster
+                showMessage('Logo yükleniyor...', 'success');
+                
+                // Dosyayı yükle
+                const snapshot = await storageRef.put(file);
+                console.log('Logo yüklendi:', snapshot);
+                
+                // Download URL al
+                const downloadURL = await snapshot.ref.getDownloadURL();
+                console.log('Logo URL:', downloadURL);
+                
+                return downloadURL;
+                
+            } catch (error) {
+                console.error('Logo yükleme hatası:', error);
+                throw new Error('Logo yüklenirken hata oluştu: ' + error.message);
+            }
+        }
             event.preventDefault();
             
             if (!currentUser || !isAdmin) {
@@ -485,8 +556,87 @@
             }
         }
 
-        // Auth state listener
-        auth.onAuthStateChanged((user) => {
+        // Load teams from Firestore
+        function loadTeams() {
+            console.log('Takımlar yükleniyor...');
+            
+            db.collection('teams').orderBy('createdAt', 'desc').get()
+                .then((querySnapshot) => {
+                    const teamsContainer = document.getElementById('teamsContainer');
+                    
+                    if (querySnapshot.empty) {
+                        teamsContainer.innerHTML = `
+                            <div style="text-align: center; color: #9ca3af; padding: 2rem;">
+                                Henüz takım eklenmemiş. İlk takımı siz ekleyin!
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let teamsHTML = '';
+                    querySnapshot.forEach((doc) => {
+                        const team = doc.data();
+                        
+                        teamsHTML += `
+                            <div class="team-card">
+                                <div class="team-header">
+                                    <div class="team-logo">
+                                        ${team.logo ? 
+                                            `<img src="${team.logo}" alt="${team.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">` :
+                                            '⚽'
+                                        }
+                                    </div>
+                                    <div>
+                                        <div class="team-name">${team.name}</div>
+                                        <div style="color: #d1d5db; margin-bottom: 0.5rem;">
+                                            ${team.league} • Menajeri: ${team.manager || 'Belirtilmemiş'}
+                                        </div>
+                                        <div style="color: #9ca3af; font-size: 0.9rem;">
+                                            ${team.description || 'Açıklama eklenmemiş'}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.5rem; margin-top: 1rem;">
+                                    <div style="text-align: center; padding: 0.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 6px;">
+                                        <div style="font-weight: bold; color: #10b981;">${team.played || 0}</div>
+                                        <div style="font-size: 0.8rem; color: #d1d5db;">Maç</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 0.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 6px;">
+                                        <div style="font-weight: bold; color: #10b981;">${team.won || 0}</div>
+                                        <div style="font-size: 0.8rem; color: #d1d5db;">G</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 0.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 6px;">
+                                        <div style="font-weight: bold; color: #8b5cf6;">${team.drawn || 0}</div>
+                                        <div style="font-size: 0.8rem; color: #d1d5db;">B</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 0.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 6px;">
+                                        <div style="font-weight: bold; color: #ef4444;">${team.lost || 0}</div>
+                                        <div style="font-size: 0.8rem; color: #d1d5db;">M</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 0.5rem; background: rgba(16, 185, 129, 0.1); border-radius: 6px;">
+                                        <div style="font-weight: bold; color: #10b981;">${team.points || 0}</div>
+                                        <div style="font-size: 0.8rem; color: #d1d5db;">Puan</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1rem; font-size: 0.8rem; color: #9ca3af; text-align: center;">
+                                    ${team.addedBy} tarafından eklendi
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    teamsContainer.innerHTML = teamsHTML;
+                    console.log('Takımlar yüklendi');
+                })
+                .catch((error) => {
+                    console.error('Takım yükleme hatası:', error);
+                    document.getElementById('teamsContainer').innerHTML = `
+                        <div style="text-align: center; color: #ef4444; padding: 2rem;">
+                            Takımlar yüklenirken hata oluştu: ${error.message}
+                        </div>
+                    `;
+                });
+        }
             console.log('Auth state changed:', user ? user.email : 'null');
             currentUser = user;
             
