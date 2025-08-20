@@ -604,7 +604,7 @@
             <!-- Maç Yönetimi -->
             <div id="admin-match" class="admin-panel" style="display: none;">
                 <h3 class="section-title">⚽ Maç Ekle/Düzenle</h3>
-                <form onsubmit="addMatch(event)">
+                <form id="matchForm">
                     <div class="form-group">
                         <label for="homeTeam">Ev Sahibi Takım:</label>
                         <select id="homeTeam" required>
@@ -644,7 +644,7 @@
             <!-- Oyuncu Yönetimi -->
             <div id="admin-player" class="admin-panel" style="display: none;">
                 <h3 class="section-title">👤 Oyuncu Ekle/Düzenle</h3>
-                <form onsubmit="addPlayer(event)">
+                <form id="playerForm">
                     <div class="form-group">
                         <label for="playerName">Oyuncu Adı:</label>
                         <input type="text" id="playerName" placeholder="Örn: Mehmet Yılmaz" required>
