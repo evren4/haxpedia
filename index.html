@@ -6,13 +6,17 @@
     <style>
         body { background: #1a0b2e; color: white; font-family: Arial; padding: 2rem; }
         .auth-btn { background: #10b981; border: none; padding: 1rem 2rem; color: white; border-radius: 8px; cursor: pointer; }
-        .team-card { background: rgba(255,255,255,0.1); padding: 1rem; margin: 1rem 0; border-radius: 8px; }
-        input, select, textarea { width: 100%; padding: 0.5rem; margin: 0.5rem 0; background: rgba(255,255,255,0.1); border: 1px solid #10b981; color: white; }
-        #adminPanel { display: none; }
+        .team-card { background: rgba(255,255,255,0.1); padding: 1rem; margin: 1rem 0; border-radius: 8px; display: flex; align-items: center; gap: 1rem; }
+        .team-logo { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+        input, select, textarea { width: 100%; padding: 0.5rem; margin: 0.5rem 0; background: rgba(255,255,255,0.1); border: 1px solid #10b981; color: white; border-radius: 4px; }
+        #adminPanel { display: none; background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; margin: 2rem 0; }
+        .logo-upload { border: 2px dashed #10b981; padding: 2rem; text-align: center; cursor: pointer; border-radius: 8px; margin: 1rem 0; }
+        .logo-preview { max-width: 150px; max-height: 150px; border-radius: 8px; margin: 1rem 0; }
+        .submit-btn { background: #10b981; border: none; padding: 1rem 2rem; color: white; border-radius: 8px; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
-    <h1>Haxpedia</h1>
+    <h1>Haxpedia - Haxball Ansiklopedisi</h1>
     
     <div id="auth">
         <button class="auth-btn" onclick="login()">Giriş Yap</button>
@@ -24,23 +28,45 @@
 
     <div id="teams">
         <h2>Takımlar</h2>
-        <div id="teamsList"></div>
+        <div id="teamsList">Takımlar yükleniyor...</div>
     </div>
 
     <div id="adminPanel">
-        <h2>Takım Ekle</h2>
-        <input id="teamName" placeholder="Takım adı">
-        <select id="teamLeague">
+        <h2>Yeni Takım Ekle</h2>
+        <div id="messages"></div>
+        
+        <label>Takım Adı:</label>
+        <input id="teamName" placeholder="Örn: Galatasaray HB" required>
+        
+        <label>Lig:</label>
+        <select id="teamLeague" required>
+            <option value="">Lig Seçin</option>
             <option>Süper Lig</option>
             <option>1. Lig</option>
+            <option>2. Lig</option>
         </select>
-        <input id="teamManager" placeholder="Menajeri">
-        <button onclick="addTeam()">Ekle</button>
+        
+        <label>Menajeri:</label>
+        <input id="teamManager" placeholder="Menajerin adı">
+        
+        <label>Takım Logosu:</label>
+        <div class="logo-upload" onclick="document.getElementById('logoInput').click()">
+            <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="previewLogo(event)">
+            <div id="logoPreview">
+                <div style="font-size: 3rem;">📸</div>
+                <div>Logo yüklemek için tıklayın</div>
+                <div style="font-size: 0.9rem; color: #aaa;">PNG, JPG desteklenir (Max 5MB)</div>
+            </div>
+        </div>
+        
+        <button class="submit-btn" onclick="addTeam()">Takım Ekle</button>
     </div>
 
+    <!-- Firebase SDK with Storage -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
     <script>
         firebase.initializeApp({
@@ -54,7 +80,9 @@
 
         var db = firebase.firestore();
         var auth = firebase.auth();
+        var storage = firebase.storage();
         var currentUser = null;
+        var selectedLogo = null;
 
         function login() {
             var provider = new firebase.auth.GoogleAuthProvider();
@@ -65,29 +93,126 @@
             auth.signOut();
         }
 
-        function addTeam() {
-            if (!currentUser) return alert('Giriş yapın');
-            if (currentUser.email !== 'evrenalbayrak96@gmail.com') return alert('Yetkisiz');
+        function showMessage(text, type) {
+            var messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '<div style="padding:1rem;margin:1rem 0;border-radius:8px;background:' + 
+                (type === 'error' ? 'rgba(255,0,0,0.2);border:1px solid red;' : 'rgba(0,255,0,0.2);border:1px solid green;') + 
+                '">' + text + '</div>';
+            setTimeout(() => messagesDiv.innerHTML = '', 5000);
+        }
+
+        function previewLogo(event) {
+            var file = event.target.files[0];
+            if (!file) return;
             
-            db.collection('teams').add({
-                name: document.getElementById('teamName').value,
-                league: document.getElementById('teamLeague').value,
-                manager: document.getElementById('teamManager').value,
-                addedBy: currentUser.email
-            }).then(() => {
-                alert('Eklendi');
-                loadTeams();
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('Logo dosyası 5MB\'dan küçük olmalıdır!', 'error');
+                return;
+            }
+            
+            if (!file.type.startsWith('image/')) {
+                showMessage('Sadece resim dosyaları yüklenebilir!', 'error');
+                return;
+            }
+            
+            selectedLogo = file;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('logoPreview').innerHTML = 
+                    '<img src="' + e.target.result + '" class="logo-preview" alt="Logo"><div style="color:#10b981;margin-top:1rem;">Logo hazır - ' + file.name + '</div><div style="font-size:0.9rem;color:#aaa;">Değiştirmek için tekrar tıklayın</div>';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function uploadLogo(file) {
+            return new Promise((resolve, reject) => {
+                var fileName = 'team-logos/' + Date.now() + '_' + file.name;
+                var storageRef = storage.ref(fileName);
+                
+                var uploadTask = storageRef.put(file);
+                
+                uploadTask.on('state_changed', 
+                    function(snapshot) {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        showMessage('Logo yükleniyor... %' + Math.round(progress), 'success');
+                    },
+                    function(error) {
+                        reject(error);
+                    },
+                    function() {
+                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                            resolve(downloadURL);
+                        });
+                    }
+                );
             });
         }
 
-        function loadTeams() {
-            db.collection('teams').get().then(snapshot => {
-                var html = '';
-                snapshot.forEach(doc => {
-                    var team = doc.data();
-                    html += '<div class="team-card"><h3>' + team.name + '</h3><p>' + team.league + '</p></div>';
+        function addTeam() {
+            if (!currentUser) return showMessage('Giriş yapın', 'error');
+            if (currentUser.email !== 'evrenalbayrak96@gmail.com') return showMessage('Yetkisiz', 'error');
+            
+            var name = document.getElementById('teamName').value;
+            var league = document.getElementById('teamLeague').value;
+            var manager = document.getElementById('teamManager').value;
+            
+            if (!name || !league) return showMessage('Takım adı ve lig zorunlu!', 'error');
+            
+            function saveTeam(logoURL) {
+                db.collection('teams').add({
+                    name: name,
+                    league: league,
+                    manager: manager,
+                    logo: logoURL || '',
+                    addedBy: currentUser.email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    showMessage('Takım başarıyla eklendi!', 'success');
+                    document.getElementById('teamName').value = '';
+                    document.getElementById('teamLeague').value = '';
+                    document.getElementById('teamManager').value = '';
+                    document.getElementById('logoInput').value = '';
+                    document.getElementById('logoPreview').innerHTML = '<div style="font-size: 3rem;">📸</div><div>Logo yüklemek için tıklayın</div>';
+                    selectedLogo = null;
+                    loadTeams();
+                }).catch(err => {
+                    showMessage('Hata: ' + err.message, 'error');
                 });
+            }
+            
+            if (selectedLogo) {
+                showMessage('Logo yükleniyor...', 'success');
+                uploadLogo(selectedLogo).then(logoURL => {
+                    saveTeam(logoURL);
+                }).catch(err => {
+                    showMessage('Logo yükleme hatası: ' + err.message, 'error');
+                });
+            } else {
+                saveTeam('');
+            }
+        }
+
+        function loadTeams() {
+            db.collection('teams').orderBy('createdAt', 'desc').get().then(snapshot => {
+                var html = '';
+                if (snapshot.empty) {
+                    html = '<div style="text-align:center;color:#aaa;padding:2rem;">Henüz takım eklenmemiş.</div>';
+                } else {
+                    snapshot.forEach(doc => {
+                        var team = doc.data();
+                        var logoHtml = team.logo ? 
+                            '<img src="' + team.logo + '" class="team-logo" alt="' + team.name + '">' : 
+                            '<div class="team-logo">⚽</div>';
+                        
+                        html += '<div class="team-card">' + logoHtml + 
+                            '<div><h3>' + team.name + '</h3><p>' + team.league + 
+                            (team.manager ? ' • ' + team.manager : '') + 
+                            '</p><small style="color:#aaa;">' + team.addedBy + ' tarafından eklendi</small></div></div>';
+                    });
+                }
                 document.getElementById('teamsList').innerHTML = html;
+            }).catch(err => {
+                document.getElementById('teamsList').innerHTML = '<div style="color:red;">Yükleme hatası: ' + err.message + '</div>';
             });
         }
 
@@ -102,6 +227,7 @@
             } else {
                 document.getElementById('auth').innerHTML = '<button class="auth-btn" onclick="login()">Giriş Yap</button>';
                 document.getElementById('adminPanel').style.display = 'none';
+                loadTeams();
             }
         });
 
