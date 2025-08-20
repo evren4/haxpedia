@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Haxpedia - Haxball Ansiklopedisi</title>
     <style>
+        /* Mevcut CSS aynı kalıyor */
         * {
             margin: 0;
             padding: 0;
@@ -46,6 +47,28 @@
             background-clip: text;
             text-decoration: none;
             letter-spacing: -0.5px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(229, 231, 235, 0.2);
+            border-radius: 6px;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-tab.active, .nav-tab:hover {
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+            background: rgba(34, 197, 94, 0.1);
         }
 
         .auth-section {
@@ -105,6 +128,14 @@
             height: fit-content;
         }
 
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
         .section-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -120,16 +151,15 @@
             gap: 1rem;
         }
 
-        .team-card {
+        .team-card, .match-card {
             background: linear-gradient(135deg, rgba(15, 15, 35, 0.8), rgba(26, 26, 46, 0.6));
             border: 1px solid rgba(229, 231, 235, 0.1);
             border-radius: 10px;
             padding: 1.5rem;
             transition: all 0.2s ease;
-            cursor: pointer;
         }
 
-        .team-card:hover {
+        .team-card:hover, .match-card:hover {
             transform: translateY(-2px);
             border-color: rgba(34, 197, 94, 0.3);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
@@ -174,6 +204,12 @@
             padding: 2rem;
             margin-bottom: 2rem;
             display: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
 
         .form-group {
@@ -311,6 +347,31 @@
             opacity: 0.5;
         }
 
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .match-teams {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .match-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22c55e;
+            margin: 0 1rem;
+        }
+
+        .match-date {
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 1fr;
@@ -323,6 +384,10 @@
     <header class="header">
         <div class="nav-container">
             <a href="#" class="logo">Haxpedia</a>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('teams')">Takımlar</button>
+                <button class="nav-tab" onclick="showSection('matches')">Maçlar</button>
+            </div>
             <div class="auth-section">
                 <button class="auth-btn" id="loginBtn" onclick="login()">Giriş Yap</button>
                 <div class="user-info" id="userInfo" style="display:none;">
@@ -335,9 +400,10 @@
 
     <div class="container">
         <main class="main-content">
-            <div id="adminPanel" class="admin-panel">
+            <!-- Takım Ekleme Paneli -->
+            <div id="teamAdminPanel" class="admin-panel">
                 <h2 class="section-title">Yeni Takım Ekle</h2>
-                <div id="messages"></div>
+                <div id="teamMessages"></div>
                 
                 <div class="form-group">
                     <label class="form-label">Takım Adı</label>
@@ -374,12 +440,63 @@
                 <button class="submit-btn" onclick="addTeam()">Takım Ekle</button>
             </div>
 
-            <div>
+            <!-- Maç Ekleme Paneli -->
+            <div id="matchAdminPanel" class="admin-panel">
+                <h2 class="section-title">Yeni Maç Ekle</h2>
+                <div id="matchMessages"></div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Ev Sahibi Takım</label>
+                        <select class="form-select" id="homeTeam" required>
+                            <option value="">Takım Seçin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Deplasman Takımı</label>
+                        <select class="form-select" id="awayTeam" required>
+                            <option value="">Takım Seçin</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Ev Sahibi Skor</label>
+                        <input class="form-input" type="number" id="homeScore" min="0" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Deplasman Skor</label>
+                        <input class="form-input" type="number" id="awayScore" min="0" placeholder="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Maç Tarihi</label>
+                    <input class="form-input" type="datetime-local" id="matchDate" required>
+                </div>
+                
+                <button class="submit-btn" onclick="addMatch()">Maç Ekle</button>
+            </div>
+
+            <!-- Takımlar Bölümü -->
+            <div id="teams-section" class="section active">
                 <h2 class="section-title">Takımlar</h2>
                 <div class="team-grid" id="teamsList">
                     <div class="empty-state">
                         <div class="empty-state-icon">⚽</div>
                         <div>Takımlar yükleniyor...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maçlar Bölümü -->
+            <div id="matches-section" class="section">
+                <h2 class="section-title">Maç Sonuçları</h2>
+                <div class="team-grid" id="matchesList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚽</div>
+                        <div>Maçlar yükleniyor...</div>
                     </div>
                 </div>
             </div>
@@ -393,8 +510,8 @@
                     <div class="stat-label">Takım</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number" id="userCount">1</span>
-                    <div class="stat-label">Admin</div>
+                    <span class="stat-number" id="matchCount">0</span>
+                    <div class="stat-label">Maç</div>
                 </div>
             </div>
 
@@ -424,6 +541,7 @@
         var auth = firebase.auth();
         var currentUser = null;
         var selectedLogo = null;
+        var teams = [];
 
         function login() {
             var provider = new firebase.auth.GoogleAuthProvider();
@@ -434,8 +552,29 @@
             auth.signOut();
         }
 
-        function showMessage(text, type) {
-            var messagesDiv = document.getElementById('messages');
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Show appropriate admin panel
+            document.getElementById('teamAdminPanel').style.display = 
+                sectionName === 'teams' && currentUser && currentUser.email === 'evrenalbayrak96@gmail.com' ? 'block' : 'none';
+            document.getElementById('matchAdminPanel').style.display = 
+                sectionName === 'matches' && currentUser && currentUser.email === 'evrenalbayrak96@gmail.com' ? 'block' : 'none';
+            
+            // Load data for section
+            if (sectionName === 'matches') {
+                loadMatches();
+            }
+        }
+
+        function showMessage(text, type, container) {
+            var messagesDiv = document.getElementById(container || 'teamMessages');
             messagesDiv.innerHTML = '<div class="message ' + type + '">' + text + '</div>';
             setTimeout(() => messagesDiv.innerHTML = '', 5000);
         }
@@ -481,7 +620,15 @@
                 manager: manager,
                 logo: selectedLogo || '',
                 addedBy: currentUser.email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                // İstatistikler
+                played: 0,
+                won: 0,
+                drawn: 0,
+                lost: 0,
+                points: 0,
+                goalsFor: 0,
+                goalsAgainst: 0
             }).then(() => {
                 showMessage('Takım başarıyla eklendi!', 'success');
                 
@@ -493,67 +640,113 @@
                 selectedLogo = null;
                 
                 loadTeams();
+                loadTeamOptions();
             }).catch(err => {
                 showMessage('Hata: ' + err.message, 'error');
             });
         }
 
-        function loadTeams() {
-            db.collection('teams').orderBy('createdAt', 'desc').get().then(snapshot => {
-                var html = '';
-                var teamCount = 0;
+        function addMatch() {
+            if (!currentUser) return showMessage('Giriş yapın', 'error', 'matchMessages');
+            if (currentUser.email !== 'evrenalbayrak96@gmail.com') return showMessage('Yetkisiz', 'error', 'matchMessages');
+            
+            var homeTeam = document.getElementById('homeTeam').value;
+            var awayTeam = document.getElementById('awayTeam').value;
+            var homeScore = parseInt(document.getElementById('homeScore').value);
+            var awayScore = parseInt(document.getElementById('awayScore').value);
+            var matchDate = document.getElementById('matchDate').value;
+            
+            if (!homeTeam || !awayTeam || isNaN(homeScore) || isNaN(awayScore) || !matchDate) {
+                return showMessage('Tüm alanları doldurun!', 'error', 'matchMessages');
+            }
+            
+            if (homeTeam === awayTeam) {
+                return showMessage('Takım kendisi ile oynayamaz!', 'error', 'matchMessages');
+            }
+            
+            showMessage('Maç kaydediliyor...', 'success', 'matchMessages');
+            
+            db.collection('matches').add({
+                homeTeam: homeTeam,
+                awayTeam: awayTeam,
+                homeScore: homeScore,
+                awayScore: awayScore,
+                matchDate: new Date(matchDate),
+                addedBy: currentUser.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                showMessage('Maç başarıyla eklendi!', 'success', 'matchMessages');
                 
-                if (snapshot.empty) {
-                    html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-top:0.5rem;">İlk takımı eklemek için yukarıdaki formu kullanın</div></div>';
-                } else {
-                    snapshot.forEach(doc => {
-                        var team = doc.data();
-                        teamCount++;
-                        
-                        var logoHtml = team.logo ? 
-                            '<img src="' + team.logo + '" class="team-logo" alt="' + team.name + '">' : 
-                            '<div class="team-logo">⚽</div>';
-                        
-                        html += '<div class="team-card">' +
-                            '<div class="team-header">' + logoHtml +
-                            '<div class="team-info">' +
-                            '<h3>' + team.name + '</h3>' +
-                            '<div class="team-meta">' + team.league + 
-                            (team.manager ? ' • ' + team.manager : '') + '</div>' +
-                            '</div></div>' +
-                            '<div style="color:#6b7280;font-size:0.85rem;margin-top:0.5rem;">' + 
-                            team.addedBy + ' tarafından eklendi</div></div>';
-                    });
-                }
+                // Form temizle
+                document.getElementById('homeTeam').value = '';
+                document.getElementById('awayTeam').value = '';
+                document.getElementById('homeScore').value = '';
+                document.getElementById('awayScore').value = '';
+                document.getElementById('matchDate').value = '';
                 
-                document.getElementById('teamsList').innerHTML = html;
-                document.getElementById('teamCount').textContent = teamCount;
+                // İstatistikleri güncelle
+                updateTeamStats(homeTeam, awayTeam, homeScore, awayScore);
+                
+                loadMatches();
             }).catch(err => {
-                document.getElementById('teamsList').innerHTML = '<div class="empty-state"><div style="color:#ef4444;">Yükleme hatası: ' + err.message + '</div></div>';
+                showMessage('Hata: ' + err.message, 'error', 'matchMessages');
             });
         }
 
-        auth.onAuthStateChanged(user => {
-            currentUser = user;
-            if (user) {
-                document.getElementById('loginBtn').style.display = 'none';
-                document.getElementById('userInfo').style.display = 'flex';
-                document.getElementById('userName').textContent = user.email.split('@')[0];
+        function updateTeamStats(homeTeamName, awayTeamName, homeScore, awayScore) {
+            // Ev sahibi takım güncelleme
+            var homeTeam = teams.find(t => t.name === homeTeamName);
+            if (homeTeam) {
+                var homeUpdate = {
+                    played: (homeTeam.played || 0) + 1,
+                    goalsFor: (homeTeam.goalsFor || 0) + homeScore,
+                    goalsAgainst: (homeTeam.goalsAgainst || 0) + awayScore
+                };
                 
-                if (user.email === 'evrenalbayrak96@gmail.com') {
-                    document.getElementById('adminPanel').style.display = 'block';
-                    document.getElementById('userName').textContent += ' (Yönetici)';
+                if (homeScore > awayScore) {
+                    homeUpdate.won = (homeTeam.won || 0) + 1;
+                    homeUpdate.points = (homeTeam.points || 0) + 3;
+                } else if (homeScore === awayScore) {
+                    homeUpdate.drawn = (homeTeam.drawn || 0) + 1;
+                    homeUpdate.points = (homeTeam.points || 0) + 1;
+                } else {
+                    homeUpdate.lost = (homeTeam.lost || 0) + 1;
                 }
-                loadTeams();
-            } else {
-                document.getElementById('loginBtn').style.display = 'block';
-                document.getElementById('userInfo').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'none';
-                loadTeams();
+                
+                db.collection('teams').doc(homeTeam.id).update(homeUpdate);
             }
-        });
+            
+            // Deplasman takımı güncelleme
+            var awayTeam = teams.find(t => t.name === awayTeamName);
+            if (awayTeam) {
+                var awayUpdate = {
+                    played: (awayTeam.played || 0) + 1,
+                    goalsFor: (awayTeam.goalsFor || 0) + awayScore,
+                    goalsAgainst: (awayTeam.goalsAgainst || 0) + homeScore
+                };
+                
+                if (awayScore > homeScore) {
+                    awayUpdate.won = (awayTeam.won || 0) + 1;
+                    awayUpdate.points = (awayTeam.points || 0) + 3;
+                } else if (awayScore === homeScore) {
+                    awayUpdate.drawn = (awayTeam.drawn || 0) + 1;
+                    awayUpdate.points = (awayTeam.points || 0) + 1;
+                } else {
+                    awayUpdate.lost = (awayTeam.lost || 0) + 1;
+                }
+                
+                db.collection('teams').doc(awayTeam.id).update(awayUpdate);
+            }
+            
+            // Takımları yeniden yükle
+            setTimeout(() => loadTeams(), 1000);
+        }
 
-        loadTeams();
-    </script>
-</body>
-</html>
+        function loadTeams() {
+            db.collection('teams').orderBy('points', 'desc').get().then(snapshot => {
+                var html = '';
+                var teamCount = 0;
+                teams = [];
+                
+                if (snapshot.empty) {
+                    html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-
