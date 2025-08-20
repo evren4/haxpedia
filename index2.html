@@ -444,20 +444,11 @@
             measurementId: "G-NDCVR1Y354"
         };
 
-       // Admin kullanıcıları (email listesi)
-const ADMIN_EMAILS = [
-    'evrenalbayrak96@gmail.com',
-    'admin@haxpedia.com',
-];
-
-// Firebase başlatma
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-let isDemo = false;
-
-let currentUser = null;
-let isAdmin = false;
+        // Firebase başlatma
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        let isDemo = false; // Artık gerçek Firebase kullanıyoruz
 
         // Demo data storage
         let demoTeams = [
@@ -573,34 +564,47 @@ let isAdmin = false;
         };
 
         function updateUserInterface() {
+            console.log('updateUserInterface çağrıldı - currentUser:', currentUser, 'isAdmin:', isAdmin);
+            
             const loginBtn = document.getElementById('loginBtn');
             const userInfo = document.getElementById('userInfo');
             const addTeamForm = document.getElementById('addTeamForm');
             const userInfoMessage = document.getElementById('userInfoMessage');
             const userName = document.getElementById('userName');
 
+            // Element kontrolü
+            if (!loginBtn || !userInfo || !userName) {
+                console.error('UI elementleri bulunamadı!');
+                return;
+            }
+
             if (currentUser) {
+                console.log('Kullanıcı var, UI güncelleniyor...');
                 loginBtn.style.display = 'none';
                 userInfo.style.display = 'flex';
-                userName.textContent = currentUser.displayName || 'Kullanıcı';
+                userName.textContent = currentUser.displayName || currentUser.email || 'Kullanıcı';
                 
                 // Admin kontrolü
                 if (isAdmin) {
-                    addTeamForm.style.display = 'block';
-                    userInfoMessage.style.display = 'none';
+                    console.log('Admin kullanıcı - form gösteriliyor');
+                    if (addTeamForm) addTeamForm.style.display = 'block';
+                    if (userInfoMessage) userInfoMessage.style.display = 'none';
                     userName.textContent += ' (YÖNETİCİ)';
                     userName.style.color = '#10b981';
                     showMessage('Yönetici olarak giriş yaptınız!', 'success');
                 } else {
-                    addTeamForm.style.display = 'none';
-                    userInfoMessage.style.display = 'block';
+                    console.log('Normal kullanıcı - bilgi mesajı gösteriliyor');
+                    if (addTeamForm) addTeamForm.style.display = 'none';
+                    if (userInfoMessage) userInfoMessage.style.display = 'block';
                     userName.style.color = '#ffffff';
+                    showMessage('Hoş geldiniz! Siteyi görüntüleyebilirsiniz.', 'success');
                 }
             } else {
+                console.log('Kullanıcı yok, giriş butonu gösteriliyor');
                 loginBtn.style.display = 'block';
                 userInfo.style.display = 'none';
-                addTeamForm.style.display = 'none';
-                userInfoMessage.style.display = 'none';
+                if (addTeamForm) addTeamForm.style.display = 'none';
+                if (userInfoMessage) userInfoMessage.style.display = 'none';
             }
         }
 
@@ -660,26 +664,38 @@ let isAdmin = false;
 
         // Auth state listener
         onAuthStateChanged(auth, (user) => {
-            console.log('Auth state değişti:', user);
+            console.log('🔥 Auth state değişti:', user ? user.email : 'null');
             currentUser = user;
             
             // Admin kontrolü - ADMIN_EMAILS tanımlı mı kontrol et
             if (user && user.email && typeof ADMIN_EMAILS !== 'undefined') {
                 isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
-                console.log('Kullanıcı admin mi?', isAdmin, 'Email:', user.email);
+                console.log('👑 Admin kontrolü:', {
+                    email: user.email,
+                    isAdmin: isAdmin,
+                    adminList: ADMIN_EMAILS
+                });
             } else {
                 isAdmin = false;
                 if (typeof ADMIN_EMAILS === 'undefined') {
-                    console.error('ADMIN_EMAILS tanımlı değil!');
+                    console.error('❌ ADMIN_EMAILS tanımlı değil!');
                 }
             }
             
-            updateUserInterface();
+            // UI güncelleme - 500ms bekle (DOM hazır olsun)
+            setTimeout(() => {
+                updateUserInterface();
+            }, 500);
+            
             if (user) {
-                console.log('Kullanıcı giriş yaptı:', user.displayName, '- Admin:', isAdmin);
+                console.log('✅ Kullanıcı giriş yaptı:', {
+                    name: user.displayName,
+                    email: user.email,
+                    admin: isAdmin
+                });
                 loadTeams();
             } else {
-                console.log('Kullanıcı çıkış yaptı');
+                console.log('❌ Kullanıcı çıkış yaptı');
             }
         });
 
