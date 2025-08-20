@@ -749,4 +749,124 @@
                 teams = [];
                 
                 if (snapshot.empty) {
+                    html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-top:0.5rem;">İlk takımı eklemek için yukarıdaki formu kullanın</div></div>';
+                } else {
+                    snapshot.forEach(doc => {
+                        var team = doc.data();
+                        team.id = doc.id;
+                        teams.push(team);
+                        teamCount++;
+                        
+                        var logoHtml = team.logo ? 
+                            '<img src="' + team.logo + '" class="team-logo" alt="' + team.name + '">' : 
+                            '<div class="team-logo">⚽</div>';
+                        
+                        html += '<div class="team-card">' +
+                            '<div class="team-header">' + logoHtml +
+                            '<div class="team-info">' +
+                            '<h3>' + team.name + '</h3>' +
+                            '<div class="team-meta">' + team.league + 
+                            (team.manager ? ' • ' + team.manager : '') + '</div>' +
+                            '</div></div>' +
+                            '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;margin-top:1rem;">' +
+                            '<div style="text-align:center;padding:0.5rem;background:rgba(34,197,94,0.1);border-radius:6px;"><div style="font-weight:bold;color:#22c55e;">' + (team.played || 0) + '</div><div style="font-size:0.8rem;color:#9ca3af;">Maç</div></div>' +
+                            '<div style="text-align:center;padding:0.5rem;background:rgba(34,197,94,0.1);border-radius:6px;"><div style="font-weight:bold;color:#22c55e;">' + (team.won || 0) + '</div><div style="font-size:0.8rem;color:#9ca3af;">G</div></div>' +
+                            '<div style="text-align:center;padding:0.5rem;background:rgba(156,163,175,0.1);border-radius:6px;"><div style="font-weight:bold;color:#9ca3af;">' + (team.drawn || 0) + '</div><div style="font-size:0.8rem;color:#9ca3af;">B</div></div>' +
+                            '<div style="text-align:center;padding:0.5rem;background:rgba(239,68,68,0.1);border-radius:6px;"><div style="font-weight:bold;color:#ef4444;">' + (team.lost || 0) + '</div><div style="font-size:0.8rem;color:#9ca3af;">M</div></div>' +
+                            '<div style="text-align:center;padding:0.5rem;background:rgba(34,197,94,0.2);border-radius:6px;"><div style="font-weight:bold;color:#22c55e;font-size:1.1rem;">' + (team.points || 0) + '</div><div style="font-size:0.8rem;color:#9ca3af;">Puan</div></div>' +
+                            '</div>' +
+                            '<div style="color:#6b7280;font-size:0.85rem;margin-top:0.5rem;">' + 
+                            team.addedBy + ' tarafından eklendi</div></div>';
+                    });
+                }
+                
+                document.getElementById('teamsList').innerHTML = html;
+                document.getElementById('teamCount').textContent = teamCount;
+            }).catch(err => {
+                document.getElementById('teamsList').innerHTML = '<div class="empty-state"><div style="color:#ef4444;">Yükleme hatası: ' + err.message + '</div></div>';
+            });
+        }
+
+        function loadMatches() {
+            db.collection('matches').orderBy('matchDate', 'desc').get().then(snapshot => {
+                var html = '';
+                var matchCount = 0;
+                
+                if (snapshot.empty) {
+                    html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz maç eklenmemiş</div></div>';
+                } else {
+                    snapshot.forEach(doc => {
+                        var match = doc.data();
+                        matchCount++;
+                        
+                        var homeTeam = teams.find(t => t.name === match.homeTeam);
+                        var awayTeam = teams.find(t => t.name === match.awayTeam);
+                        
+                        var homeLogo = homeTeam && homeTeam.logo ? '<img src="' + homeTeam.logo + '" style="width:32px;height:32px;border-radius:4px;object-fit:cover;">' : '⚽';
+                        var awayLogo = awayTeam && awayTeam.logo ? '<img src="' + awayTeam.logo + '" style="width:32px;height:32px;border-radius:4px;object-fit:cover;">' : '⚽';
+                        
+                        var matchDate = match.matchDate.toDate ? match.matchDate.toDate() : new Date(match.matchDate);
+                        var dateStr = matchDate.toLocaleDateString('tr-TR') + ' ' + matchDate.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+                        
+                        html += '<div class="match-card">' +
+                            '<div class="match-header">' +
+                            '<div class="match-teams">' +
+                            '<div style="display:flex;align-items:center;gap:0.5rem;">' + homeLogo + '<span>' + match.homeTeam + '</span></div>' +
+                            '<div class="match-score">' + match.homeScore + ' - ' + match.awayScore + '</div>' +
+                            '<div style="display:flex;align-items:center;gap:0.5rem;"><span>' + match.awayTeam + '</span>' + awayLogo + '</div>' +
+                            '</div>' +
+                            '<div class="match-date">' + dateStr + '</div>' +
+                            '</div></div>';
+                    });
+                }
+                
+                document.getElementById('matchesList').innerHTML = html;
+                document.getElementById('matchCount').textContent = matchCount;
+            }).catch(err => {
+                document.getElementById('matchesList').innerHTML = '<div class="empty-state"><div style="color:#ef4444;">Yükleme hatası: ' + err.message + '</div></div>';
+            });
+        }
+
+        function loadTeamOptions() {
+            var homeSelect = document.getElementById('homeTeam');
+            var awaySelect = document.getElementById('awayTeam');
+            
+            var options = '<option value="">Takım Seçin</option>';
+            teams.forEach(team => {
+                options += '<option value="' + team.name + '">' + team.name + '</option>';
+            });
+            
+            homeSelect.innerHTML = options;
+            awaySelect.innerHTML = options;
+        }
+
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('userInfo').style.display = 'flex';
+                document.getElementById('userName').textContent = user.email.split('@')[0];
+                
+                if (user.email === 'evrenalbayrak96@gmail.com') {
+                    document.getElementById('teamAdminPanel').style.display = 'block';
+                    document.getElementById('userName').textContent += ' (Yönetici)';
+                }
+                loadTeams();
+                loadTeamOptions();
+            } else {
+                document.getElementById('loginBtn').style.display = 'block';
+                document.getElementById('userInfo').style.display = 'none';
+                document.getElementById('teamAdminPanel').style.display = 'none';
+                document.getElementById('matchAdminPanel').style.display = 'none';
+                loadTeams();
+            }
+        });
+
+        // Set default match date to now
+        document.getElementById('matchDate').value = new Date().toISOString().slice(0, 16);
+
+        loadTeams();
+    </script>
+</body>
+</html> {
                     html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-
