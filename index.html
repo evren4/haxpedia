@@ -55,18 +55,16 @@
             <div id="logoPreview">
                 <div style="font-size: 3rem;">📸</div>
                 <div>Logo yüklemek için tıklayın</div>
-                <div style="font-size: 0.9rem; color: #aaa;">PNG, JPG desteklenir (Max 5MB)</div>
+                <div style="font-size: 0.9rem; color: #aaa;">PNG, JPG desteklenir (Max 1MB)</div>
             </div>
         </div>
         
         <button class="submit-btn" onclick="addTeam()">Takım Ekle</button>
     </div>
 
-    <!-- Firebase SDK with Storage -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
     <script>
         firebase.initializeApp({
@@ -80,7 +78,6 @@
 
         var db = firebase.firestore();
         var auth = firebase.auth();
-        var storage = firebase.storage();
         var currentUser = null;
         var selectedLogo = null;
 
@@ -105,8 +102,9 @@
             var file = event.target.files[0];
             if (!file) return;
             
-            if (file.size > 5 * 1024 * 1024) {
-                showMessage('Logo dosyası 5MB\'dan küçük olmalıdır!', 'error');
+            // 1MB limit (Base64 makes files bigger)
+            if (file.size > 1 * 1024 * 1024) {
+                showMessage('Logo dosyası 1MB\'dan küçük olmalıdır!', 'error');
                 return;
             }
             
@@ -115,37 +113,13 @@
                 return;
             }
             
-            selectedLogo = file;
             var reader = new FileReader();
             reader.onload = function(e) {
+                selectedLogo = e.target.result; // Base64 string
                 document.getElementById('logoPreview').innerHTML = 
                     '<img src="' + e.target.result + '" class="logo-preview" alt="Logo"><div style="color:#10b981;margin-top:1rem;">Logo hazır - ' + file.name + '</div><div style="font-size:0.9rem;color:#aaa;">Değiştirmek için tekrar tıklayın</div>';
             };
             reader.readAsDataURL(file);
-        }
-
-        function uploadLogo(file) {
-            return new Promise((resolve, reject) => {
-                var fileName = 'team-logos/' + Date.now() + '_' + file.name;
-                var storageRef = storage.ref(fileName);
-                
-                var uploadTask = storageRef.put(file);
-                
-                uploadTask.on('state_changed', 
-                    function(snapshot) {
-                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        showMessage('Logo yükleniyor... %' + Math.round(progress), 'success');
-                    },
-                    function(error) {
-                        reject(error);
-                    },
-                    function() {
-                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                            resolve(downloadURL);
-                        });
-                    }
-                );
-            });
         }
 
         function addTeam() {
@@ -158,38 +132,30 @@
             
             if (!name || !league) return showMessage('Takım adı ve lig zorunlu!', 'error');
             
-            function saveTeam(logoURL) {
-                db.collection('teams').add({
-                    name: name,
-                    league: league,
-                    manager: manager,
-                    logo: logoURL || '',
-                    addedBy: currentUser.email,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                }).then(() => {
-                    showMessage('Takım başarıyla eklendi!', 'success');
-                    document.getElementById('teamName').value = '';
-                    document.getElementById('teamLeague').value = '';
-                    document.getElementById('teamManager').value = '';
-                    document.getElementById('logoInput').value = '';
-                    document.getElementById('logoPreview').innerHTML = '<div style="font-size: 3rem;">📸</div><div>Logo yüklemek için tıklayın</div>';
-                    selectedLogo = null;
-                    loadTeams();
-                }).catch(err => {
-                    showMessage('Hata: ' + err.message, 'error');
-                });
-            }
+            showMessage('Takım kaydediliyor...', 'success');
             
-            if (selectedLogo) {
-                showMessage('Logo yükleniyor...', 'success');
-                uploadLogo(selectedLogo).then(logoURL => {
-                    saveTeam(logoURL);
-                }).catch(err => {
-                    showMessage('Logo yükleme hatası: ' + err.message, 'error');
-                });
-            } else {
-                saveTeam('');
-            }
+            db.collection('teams').add({
+                name: name,
+                league: league,
+                manager: manager,
+                logo: selectedLogo || '', // Base64 string direkt kaydediliyor
+                addedBy: currentUser.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                showMessage('Takım başarıyla eklendi!', 'success');
+                
+                // Form temizle
+                document.getElementById('teamName').value = '';
+                document.getElementById('teamLeague').value = '';
+                document.getElementById('teamManager').value = '';
+                document.getElementById('logoInput').value = '';
+                document.getElementById('logoPreview').innerHTML = '<div style="font-size: 3rem;">📸</div><div>Logo yüklemek için tıklayın</div><div style="font-size: 0.9rem; color: #aaa;">PNG, JPG desteklenir (Max 1MB)</div>';
+                selectedLogo = null;
+                
+                loadTeams();
+            }).catch(err => {
+                showMessage('Hata: ' + err.message, 'error');
+            });
         }
 
         function loadTeams() {
