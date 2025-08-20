@@ -116,62 +116,6 @@
             display: block;
         }
 
-        .admin-panel {
-            background: rgba(26, 11, 46, 0.6);
-            border-radius: 16px;
-            padding: 2rem;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: #10b981;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 0.7rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
-        }
-
-        .logo-upload {
-            border: 2px dashed rgba(16, 185, 129, 0.3);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .logo-upload:hover {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .logo-preview {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-
         .team-card {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
             border-radius: 12px;
@@ -213,184 +157,6 @@
             color: #10b981;
         }
 
-        .team-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 0.5rem;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 6px;
-        }
-
-        .stat-value {
-            font-weight: bold;
-            color: #10b981;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #d1d5db;
-        }
-
-        .player-card {
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .player-card:hover {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .player-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .player-name {
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        .player-position {
-            background: rgba(16, 185, 129, 0.2);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            color: #10b981;
-        }
-
-        .match-card {
-            background: rgba(26, 11, 46, 0.6);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .match-teams {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .match-score {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #10b981;
-        }
-
-        .live-indicator {
-            background: #ef4444;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            animation: pulse 2s infinite;
-        }
-
-        .league-table {
-            background: rgba(26, 11, 46, 0.6);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .table-header {
-            background: rgba(139, 92, 246, 0.2);
-            padding: 1rem;
-            display: grid;
-            grid-template-columns: 50px 2fr 1fr 1fr 1fr 1fr;
-            gap: 1rem;
-            font-weight: bold;
-            color: #10b981;
-        }
-
-        .table-row {
-            padding: 0.8rem 1rem;
-            display: grid;
-            grid-template-columns: 50px 2fr 1fr 1fr 1fr 1fr;
-            gap: 1rem;
-            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-            align-items: center;
-        }
-
-        .table-row:hover {
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .position {
-            font-weight: bold;
-            color: #10b981;
-        }
-
-        .team-info-table {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .team-logo-small {
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-            object-fit: cover;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #1a0b2e, #16213e);
-            border-radius: 16px;
-            padding: 2rem;
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
         .section-title {
             font-size: 2rem;
             margin-bottom: 1.5rem;
@@ -400,26 +166,25 @@
             gap: 0.5rem;
         }
 
-        .tab-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .form-group {
+            margin-bottom: 1rem;
         }
 
-        .tab-btn {
-            padding: 0.8rem 1.5rem;
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 8px;
-            color: #ffffff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: #10b981;
+        .form-group label {
+            display: block;
             color: #10b981;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
         }
 
         .submit-btn {
@@ -438,13 +203,17 @@
             box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
         }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            border-radius: 8px;
-            padding: 1rem;
-            color: #fca5a5;
-            margin-bottom: 1rem;
+        .admin-panel {
+            background: rgba(26, 11, 46, 0.6);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
         }
 
         .success-message {
@@ -456,9 +225,13 @@
             margin-bottom: 1rem;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fca5a5;
+            margin-bottom: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -471,16 +244,6 @@
                 flex-direction: column;
                 gap: 1rem;
             }
-            
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .table-header, .table-row {
-                grid-template-columns: 40px 2fr 60px 60px 60px;
-                font-size: 0.9rem;
-            }
         }
     </style>
 </head>
@@ -490,18 +253,15 @@
             <a href="#" class="logo">⚽ Haxpedia</a>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#" data-section="teams" class="nav-link active">Takımlar</a></li>
-                    <li><a href="#" data-section="matches" class="nav-link">Maçlar</a></li>
-                    <li><a href="#" data-section="league" class="nav-link">Lig Tablosu</a></li>
-                    <li><a href="#" data-section="players" class="nav-link">Oyuncular</a></li>
-                    <li><a href="#" data-section="admin" class="nav-link" id="adminTab" style="display: none;">Yönetim</a></li>
+                    <li><a href="#" onclick="showSection('teams')" class="active">Takımlar</a></li>
+                    <li><a href="#" onclick="showSection('admin')" id="adminTab" style="display: none;">Yönetim</a></li>
                 </ul>
             </nav>
             <div class="auth-section">
-                <button class="auth-btn" id="loginBtn">🔑 Giriş Yap</button>
+                <button class="auth-btn" id="loginBtn" onclick="loginWithGoogle()">🔑 Giriş Yap</button>
                 <div class="user-info" id="userInfo">
                     <span id="userName">Kullanıcı</span>
-                    <button class="auth-btn" id="signOutBtn">Çıkış</button>
+                    <button class="auth-btn" onclick="signOutUser()">Çıkış</button>
                 </div>
             </div>
         </div>
@@ -511,63 +271,34 @@
         <!-- Takımlar Bölümü -->
         <div id="teams-section" class="section active">
             <h2 class="section-title">🏆 Takımlar</h2>
-            <div id="teamsContainer">Takımlar yükleniyor...</div>
-        </div>
-
-        <!-- Maçlar Bölümü -->
-        <div id="matches-section" class="section">
-            <h2 class="section-title">⚽ Maç Sonuçları</h2>
-            <div id="matchesContainer">
-                <div class="match-card">
-                    <div class="match-header">
-                        <div class="match-teams">
-                            <div class="team-logo">🔴</div>
-                            <span>Galatasaray HB</span>
-                            <span class="match-score">2 - 1</span>
-                            <span>Fenerbahçe HB</span>
-                            <div class="team-logo">🟡</div>
+            <div id="teamsContainer">
+                <div class="team-card">
+                    <div class="team-header">
+                        <div class="team-logo">🔴</div>
+                        <div>
+                            <div class="team-name">Galatasaray HB</div>
+                            <div style="color: #d1d5db;">Süper Lig • Menajeri: Ali Yılmaz</div>
                         </div>
-                        <span class="live-indicator">CANLI</span>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-header">
+                        <div class="team-logo">🟡</div>
+                        <div>
+                            <div class="team-name">Fenerbahçe HB</div>
+                            <div style="color: #d1d5db;">Süper Lig • Menajeri: Mehmet Kaya</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Lig Tablosu Bölümü -->
-        <div id="league-section" class="section">
-            <h2 class="section-title">📊 Süper Lig Tablosu</h2>
-            <div class="league-table">
-                <div class="table-header">
-                    <div>Sıra</div>
-                    <div>Takım</div>
-                    <div>O</div>
-                    <div>G</div>
-                    <div>A/G</div>
-                    <div>P</div>
-                </div>
-                <div id="leagueTableContainer">Tablo yükleniyor...</div>
-            </div>
-        </div>
-
-        <!-- Oyuncular Bölümü -->
-        <div id="players-section" class="section">
-            <h2 class="section-title">👥 Oyuncular</h2>
-            <div id="playersContainer">Oyuncular yükleniyor...</div>
-        </div>
-
         <!-- Admin Paneli -->
         <div id="admin-section" class="section">
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="showAdminTab('team')">Takım Yönetimi</button>
-                <button class="tab-btn" onclick="showAdminTab('match')">Maç Yönetimi</button>
-                <button class="tab-btn" onclick="showAdminTab('player')">Oyuncu Yönetimi</button>
-            </div>
-
-            <!-- Takım Yönetimi -->
-            <div id="admin-team" class="admin-panel">
-                <h3 class="section-title">➕ Takım Ekle/Düzenle</h3>
+            <div class="admin-panel active">
+                <h3 class="section-title">➕ Takım Ekle</h3>
                 <div id="messages"></div>
-                <form id="teamForm">
+                <form onsubmit="addTeam(event)">
                     <div class="form-group">
                         <label for="teamName">Takım Adı:</label>
                         <input type="text" id="teamName" placeholder="Örn: Galatasaray HB" required>
@@ -579,19 +310,11 @@
                             <option value="Süper Lig">Süper Lig</option>
                             <option value="1. Lig">1. Lig</option>
                             <option value="2. Lig">2. Lig</option>
-                            <option value="Amatör">Amatör</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="teamManager">Takım Menajeri:</label>
                         <input type="text" id="teamManager" placeholder="Menajerin adı">
-                    </div>
-                    <div class="form-group">
-                        <label>Takım Logosu:</label>
-                        <div class="logo-upload" id="logoUpload">
-                            <input type="file" id="logoInput" accept="image/*" style="display: none;">
-                            <div id="logoPreview">📸 Logo yüklemek için tıklayın</div>
-                        </div>
                     </div>
                     <div class="form-group">
                         <label for="teamDescription">Açıklama:</label>
@@ -600,995 +323,145 @@
                     <button type="submit" class="submit-btn">Takım Ekle</button>
                 </form>
             </div>
-
-            <!-- Maç Yönetimi -->
-            <div id="admin-match" class="admin-panel" style="display: none;">
-                <h3 class="section-title">⚽ Maç Ekle/Düzenle</h3>
-                <form id="matchForm">
-                    <div class="form-group">
-                        <label for="homeTeam">Ev Sahibi Takım:</label>
-                        <select id="homeTeam" required>
-                            <option value="">Takım Seçin</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="awayTeam">Deplasman Takımı:</label>
-                        <select id="awayTeam" required>
-                            <option value="">Takım Seçin</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="homeScore">Ev Sahibi Skor:</label>
-                        <input type="number" id="homeScore" min="0" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="awayScore">Deplasman Skor:</label>
-                        <input type="number" id="awayScore" min="0" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="matchDate">Maç Tarihi:</label>
-                        <input type="datetime-local" id="matchDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="matchStatus">Durum:</label>
-                        <select id="matchStatus" required>
-                            <option value="scheduled">Planlandı</option>
-                            <option value="live">Canlı</option>
-                            <option value="finished">Bitti</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="submit-btn">Maç Ekle</button>
-                </form>
-            </div>
-
-            <!-- Oyuncu Yönetimi -->
-            <div id="admin-player" class="admin-panel" style="display: none;">
-                <h3 class="section-title">👤 Oyuncu Ekle/Düzenle</h3>
-                <form id="playerForm">
-                    <div class="form-group">
-                        <label for="playerName">Oyuncu Adı:</label>
-                        <input type="text" id="playerName" placeholder="Örn: Mehmet Yılmaz" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="playerTeam">Takım:</label>
-                        <select id="playerTeam" required>
-                            <option value="">Takım Seçin</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="playerPosition">Pozisyon:</label>
-                        <select id="playerPosition" required>
-                            <option value="">Pozisyon Seçin</option>
-                            <option value="GK">Kaleci</option>
-                            <option value="DEF">Defans</option>
-                            <option value="MID">Orta Saha</option>
-                            <option value="ATT">Hücum</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="playerAge">Yaş:</label>
-                        <input type="number" id="playerAge" min="16" max="50" placeholder="25">
-                    </div>
-                    <div class="form-group">
-                        <label for="playerTrophies">Kazandığı Kupalar:</label>
-                        <textarea id="playerTrophies" rows="2" placeholder="Süper Lig 2024, Kupa 2023..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="playerLeagues">Oynadığı Ligler:</label>
-                        <textarea id="playerLeagues" rows="2" placeholder="Süper Lig, 1. Lig..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Oyuncu Ekle</button>
-                </form>
-            </div>
         </div>
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="widget">
-                <h3>📊 İstatistikler</h3>
+        <aside>
+            <div style="background: rgba(26, 11, 46, 0.6); border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <h3 style="color: #10b981; margin-bottom: 1rem;">📊 İstatistikler</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div style="text-align: center; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: bold; color: #10b981;" id="teamCount">0</div>
+                        <div style="font-size: 2rem; font-weight: bold; color: #10b981;">2</div>
                         <div style="color: #d1d5db; font-size: 0.9rem;">Takım</div>
                     </div>
                     <div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
-                        <div style="font-size: 2rem; font-weight: bold; color: #8b5cf6;" id="playerCount">0</div>
-                        <div style="color: #d1d5db; font-size: 0.9rem;">Oyuncu</div>
+                        <div style="font-size: 2rem; font-weight: bold; color: #8b5cf6;">0</div>
+                        <div style="color: #d1d5db; font-size: 0.9rem;">Maç</div>
                     </div>
-                </div>
-            </div>
-
-            <div class="widget">
-                <h3>🔴 Canlı Maçlar</h3>
-                <div id="liveMatches">
-                    <div style="color: #9ca3af; text-align: center; padding: 1rem;">
-                        Şu anda canlı maç yok
-                    </div>
-                </div>
-            </div>
-
-            <div class="widget">
-                <h3>🏆 Son Şampiyon</h3>
-                <div id="lastChampion" style="text-align: center; padding: 1rem;">
-                    <div style="font-size: 2rem;">🥇</div>
-                    <div style="color: #10b981; font-weight: bold; margin-top: 0.5rem;">Galatasaray HB</div>
-                    <div style="color: #d1d5db; font-size: 0.9rem;">Süper Lig 2024</div>
                 </div>
             </div>
         </aside>
     </div>
 
-    <!-- Team Detail Modal -->
-    <div id="teamModal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('teamModal')">&times;</button>
-            <div id="teamModalContent">Loading...</div>
-        </div>
-    </div>
+    <!-- Firebase v9 Compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
-    <!-- Player Detail Modal -->
-    <div id="playerModal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('playerModal')">&times;</button>
-            <div id="playerModalContent">Loading...</div>
-        </div>
-    </div>
+    <script>
+        console.log('Script yüklendi');
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, onSnapshot, serverTimestamp, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
-
-        // Firebase yapılandırması
+        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyDo0B8IIDK9Xeq4kIa3I0YK45wJS6vyzGY",
             authDomain: "haxpedia-e5054.firebaseapp.com",
             projectId: "haxpedia-e5054",
             storageBucket: "haxpedia-e5054.firebasestorage.app",
             messagingSenderId: "799081899351",
-            appId: "1:799081899351:web:66943d0281fad08b910a12",
-            measurementId: "G-NDCVR1Y354"
+            appId: "1:799081899351:web:66943d0281fad08b910a12"
         };
 
-        // Firebase başlatma
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const storage = getStorage(app);
+        // Firebase initialize
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
 
-        // Admin kullanıcıları
-        const ADMIN_EMAILS = [
-            'evrenalbayrak96@gmail.com',
-            'admin@haxpedia.com'
-        ];
+        console.log('Firebase initialized');
 
-        // DOM tamamen yüklenene kadar bekle
-        function initializeApp() {
-            console.log('Firebase app başlatılıyor...');
+        // Admin emails
+        const ADMIN_EMAILS = ['evrenalbayrak96@gmail.com'];
+
+        // Global variables
+        let currentUser = null;
+        let isAdmin = false;
+
+        // Login function
+        function loginWithGoogle() {
+            console.log('Login function called');
+            const provider = new firebase.auth.GoogleAuthProvider();
             
-            // Giriş butonu
-            const loginBtn = document.getElementById('loginBtn');
-            if (loginBtn) {
-                console.log('Login butonu bulundu, event ekleniyor...');
-                loginBtn.addEventListener('click', async function() {
-                    console.log('Login butonuna tıklandı!');
-                    try {
-                        const provider = new GoogleAuthProvider();
-                        const result = await signInWithPopup(auth, provider);
-                        console.log('Giriş başarılı:', result.user);
-                    } catch (error) {
-                        console.error('Giriş hatası:', error);
-                    }
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    console.log('Login successful:', result.user.email);
+                    showMessage('Giriş başarılı!', 'success');
+                })
+                .catch((error) => {
+                    console.error('Login error:', error);
+                    showMessage('Giriş hatası: ' + error.message, 'error');
                 });
-            } else {
-                console.error('Login butonu bulunamadı! DOM henüz hazır değil.');
-                // 1 saniye sonra tekrar dene
-                setTimeout(initializeApp, 1000);
-                return;
-            }
-
-            // Çıkış butonu
-            const signOutBtn = document.getElementById('signOutBtn');
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', async function() {
-                    try {
-                        await firebaseSignOut(auth);
-                    } catch (error) {
-                        console.error('Çıkış hatası:', error);
-                    }
-                });
-            }
-
-            // Navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const sectionName = this.getAttribute('data-section');
-                    showSection(sectionName);
-                });
-            });
-
-            console.log('Event listener\'lar başarıyla eklendi');
-            updateUserInterface();
-            loadTeams();
         }
 
-        // Farklı yöntemlerle DOM hazır olana kadar bekle
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
-        } else {
-            // DOM zaten hazır
-            initializeApp();
+        // Sign out function
+        function signOutUser() {
+            auth.signOut()
+                .then(() => {
+                    showMessage('Çıkış yapıldı!', 'success');
+                })
+                .catch((error) => {
+                    console.error('Sign out error:', error);
+                });
         }
 
-        // Backup: window load event
-        window.addEventListener('load', function() {
-            if (!document.getElementById('loginBtn').onclick) {
-                console.log('Backup initialization...');
-                initializeApp();
-            }
-        });
-
-            // Çıkış butonu
-            const signOutBtn = document.getElementById('signOutBtn');
-            if (signOutBtn) {
-                console.log('SignOut butonu bulundu, event listener ekleniyor...');
-                signOutBtn.addEventListener('click', async function() {
-                    console.log('Çıkış butonuna tıklandı!');
-                    try {
-                        await firebaseSignOut(auth);
-                        showMessage('Başarıyla çıkış yapıldı!', 'success');
-                    } catch (error) {
-                        console.error('Çıkış hatası:', error);
-                        showMessage('Çıkış yapılırken hata oluştu: ' + error.message, 'error');
-                    }
-                });
-            } else {
-                console.error('SignOut butonu bulunamadı!');
-            }
-
-            // Navigation menüsü
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const sectionName = this.getAttribute('data-section');
-                    showSection(sectionName);
-                });
-            });
-
-            // Tab butonları
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const tabName = this.textContent.toLowerCase().includes('takım') ? 'team' :
-                                   this.textContent.toLowerCase().includes('maç') ? 'match' : 'player';
-                    showAdminTab(tabName);
-                });
-            });
-
-            // Logo upload
-            document.getElementById('logoUpload').addEventListener('click', function() {
-                document.getElementById('logoInput').click();
-            });
-
-            document.getElementById('logoInput').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('logoPreview').innerHTML = 
-                            `<img src="${e.target.result}" class="logo-preview" alt="Logo">`;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Form submit handlers
-            document.getElementById('teamForm').addEventListener('submit', async function(event) {
-                event.preventDefault();
-                
-                if (!currentUser || !isAdmin) {
-                    showMessage('Takım ekleme yetkisine sahip değilsiniz!', 'error');
-                    return;
-                }
-
-                const logoFile = document.getElementById('logoInput').files[0];
-                let logoUrl = '';
-
-                try {
-                    // Logo yükle
-                    if (logoFile) {
-                        const logoRef = ref(storage, `team-logos/${Date.now()}_${logoFile.name}`);
-                        const snapshot = await uploadBytes(logoRef, logoFile);
-                        logoUrl = await getDownloadURL(snapshot.ref);
-                    }
-
-                    const teamData = {
-                        name: document.getElementById('teamName').value,
-                        league: document.getElementById('teamLeague').value,
-                        manager: document.getElementById('teamManager').value,
-                        description: document.getElementById('teamDescription').value,
-                        logo: logoUrl,
-                        addedBy: currentUser.displayName || 'Anonim',
-                        adminEmail: currentUser.email,
-                        createdAt: serverTimestamp(),
-                        // İstatistikler
-                        played: 0,
-                        won: 0,
-                        drawn: 0,
-                        lost: 0,
-                        goalsFor: 0,
-                        goalsAgainst: 0,
-                        points: 0
-                    };
-
-                    await addDoc(collection(db, 'teams'), teamData);
-                    showMessage('Takım başarıyla eklendi!', 'success');
-
-                    // Form temizle
-                    this.reset();
-                    document.getElementById('logoPreview').innerHTML = '📸 Logo yüklemek için tıklayın';
-
-                    loadTeams();
-                    loadAdminData();
-                } catch (error) {
-                    console.error('Takım ekleme hatası:', error);
-                    showMessage('Takım eklenirken hata oluştu: ' + error.message, 'error');
-                }
-            });
-
+        // Show section
         function showSection(sectionName) {
-            // Tüm sekmeleri gizle
+            // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // Nav menü aktif durumunu güncelle
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
             
-            // Seçilen bölümü göster
-            const targetSection = document.getElementById(sectionName + '-section');
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // Aktif nav linkini işaretle
-            document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
-            
-            // Bölüme göre veri yükle
-            switch(sectionName) {
-                case 'teams':
-                    loadTeams();
-                    break;
-                case 'matches':
-                    loadMatches();
-                    break;
-                case 'league':
-                    loadLeagueTable();
-                    break;
-                case 'players':
-                    loadPlayers();
-                    break;
-                case 'admin':
-                    loadAdminData();
-                    break;
-            }
-        }
-
-        function showAdminTab(tabName) {
-            // Tüm admin panellerini gizle
-            document.querySelectorAll('.admin-panel').forEach(panel => {
-                panel.style.display = 'none';
-            });
-            
-            // Tab butonlarını güncelle
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Seçilen paneli göster
-            document.getElementById('admin-' + tabName).style.display = 'block';
-            
-            // Aktif tab button'ı bul ve işaretle
-            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => {
-                const text = btn.textContent.toLowerCase();
-                return (tabName === 'team' && text.includes('takım')) ||
-                       (tabName === 'match' && text.includes('maç')) ||
-                       (tabName === 'player' && text.includes('oyuncu'));
-            });
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-
-        function showTeamDetail(teamId) {
-            const team = teams.find(t => t.id === teamId);
-            if (!team) return;
-
-            const teamPlayers = players.filter(p => p.team === team.name);
-            const teamMatches = matches.filter(m => m.homeTeam === team.name || m.awayTeam === team.name);
-
-            const modalContent = `
-                <div class="team-header">
-                    <div class="team-logo">${team.logo ? `<img src="${team.logo}" alt="${team.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">` : '⚽'}</div>
-                    <div>
-                        <h2 class="team-name">${team.name}</h2>
-                        <p style="color: #d1d5db;">${team.league} • Menajeri: ${team.manager || 'Belirtilmemiş'}</p>
-                    </div>
-                </div>
-
-                <div class="team-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">${team.played || 0}</div>
-                        <div class="stat-label">Oynanan</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.won || 0}</div>
-                        <div class="stat-label">Galibiyet</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.drawn || 0}</div>
-                        <div class="stat-label">Beraberlik</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.lost || 0}</div>
-                        <div class="stat-label">Mağlubiyet</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.points || 0}</div>
-                        <div class="stat-label">Puan</div>
-                    </div>
-                </div>
-
-                <h3 style="color: #10b981; margin: 2rem 0 1rem;">👥 Kadro (${teamPlayers.length} oyuncu)</h3>
-                <div>
-                    ${teamPlayers.length > 0 ? teamPlayers.map(player => `
-                        <div class="player-card" style="cursor: pointer;" data-player-id="${player.id}">
-                            <div class="player-header">
-                                <span class="player-name">${player.name}</span>
-                                <span class="player-position">${player.position}</span>
-                            </div>
-                            <div style="font-size: 0.9rem; color: #d1d5db; margin-top: 0.5rem;">
-                                ${player.age ? `${player.age} yaş` : ''} • ${player.matchesPlayed || 0} maç
-                            </div>
-                        </div>
-                    `).join('') : '<p style="color: #9ca3af;">Henüz oyuncu eklenmemiş.</p>'}
-                </div>
-
-                <h3 style="color: #10b981; margin: 2rem 0 1rem;">⚽ Son Maçlar</h3>
-                <div>
-                    ${teamMatches.length > 0 ? teamMatches.slice(-5).map(match => `
-                        <div class="match-card">
-                            <div class="match-header">
-                                <div class="match-teams">
-                                    <span>${match.homeTeam}</span>
-                                    <span class="match-score">${match.homeScore || 0} - ${match.awayScore || 0}</span>
-                                    <span>${match.awayTeam}</span>
-                                </div>
-                                <span style="font-size: 0.8rem; color: #9ca3af;">
-                                    ${formatDate(match.matchDate)}
-                                </span>
-                            </div>
-                        </div>
-                    `).join('') : '<p style="color: #9ca3af;">Henüz maç oynanmamış.</p>'}
-                </div>
-            `;
-
-            document.getElementById('teamModalContent').innerHTML = modalContent;
-            document.getElementById('teamModal').style.display = 'block';
-
-            // Player cards için event listener ekle
-            document.querySelectorAll('[data-player-id]').forEach(card => {
-                card.addEventListener('click', function() {
-                    const playerId = this.getAttribute('data-player-id');
-                    showPlayerDetail(playerId);
-                });
-            });
-        }
-
-        function showPlayerDetail(playerId) {
-            const player = players.find(p => p.id === playerId);
-            if (!player) return;
-
-            const modalContent = `
-                <h2 style="color: #10b981; margin-bottom: 1rem;">${player.name}</h2>
-                
-                <div style="background: rgba(139, 92, 246, 0.1); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="color: #8b5cf6; margin-bottom: 1rem;">📊 Oyuncu Bilgileri</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-                        <div>
-                            <strong style="color: #10b981;">Takım:</strong><br>
-                            <span style="color: #d1d5db;">${player.team}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #10b981;">Pozisyon:</strong><br>
-                            <span style="color: #d1d5db;">${player.position}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #10b981;">Yaş:</strong><br>
-                            <span style="color: #d1d5db;">${player.age || 'Belirtilmemiş'}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #10b981;">Maç Sayısı:</strong><br>
-                            <span style="color: #d1d5db;">${player.matchesPlayed || 0}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="color: #10b981; margin-bottom: 1rem;">🏆 Başarılar</h3>
-                    <div style="margin-bottom: 1rem;">
-                        <strong style="color: #10b981;">Kazandığı Kupalar:</strong><br>
-                        <span style="color: #d1d5db;">${player.trophies || 'Henüz kupa kazanmamış'}</span>
-                    </div>
-                    <div>
-                        <strong style="color: #10b981;">Oynadığı Ligler:</strong><br>
-                        <span style="color: #d1d5db;">${player.leagues || 'Bilgi yok'}</span>
-                    </div>
-                </div>
-
-                <div style="background: rgba(139, 92, 246, 0.1); padding: 1.5rem; border-radius: 8px;">
-                    <h3 style="color: #8b5cf6; margin-bottom: 1rem;">📈 İstatistikler</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #10b981;">${player.goals || 0}</div>
-                            <div style="color: #d1d5db; font-size: 0.9rem;">Gol</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #8b5cf6;">${player.assists || 0}</div>
-                            <div style="color: #d1d5db; font-size: 0.9rem;">Asist</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #10b981;">${player.matchesPlayed || 0}</div>
-                            <div style="color: #d1d5db; font-size: 0.9rem;">Maç</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('playerModalContent').innerHTML = modalContent;
-            document.getElementById('playerModal').style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Global fonksiyonlar
-        window.signInWithGoogle = async function() {
-            try {
-                const provider = new GoogleAuthProvider();
-                const result = await signInWithPopup(auth, provider);
-                showMessage('Başarıyla giriş yapıldı!', 'success');
-            } catch (error) {
-                console.error('Giriş hatası:', error);
-                showMessage('Giriş yapılırken hata oluştu: ' + error.message, 'error');
-            }
-        };
-
-        window.signOut = async function() {
-            try {
-                await firebaseSignOut(auth);
-                showMessage('Başarıyla çıkış yapıldı!', 'success');
-            } catch (error) {
-                console.error('Çıkış hatası:', error);
-                showMessage('Çıkış yapılırken hata oluştu: ' + error.message, 'error');
-            }
-        };
-
-        window.showSection = function(sectionName) {
-            // Tüm sekmeleri gizle
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Nav menü aktif durumunu güncelle
+            // Update nav
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.classList.remove('active');
             });
-            
-            // Seçilen bölümü göster
-            const targetSection = document.getElementById(sectionName + '-section');
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // Aktif nav linkini işaretle
             event.target.classList.add('active');
-            
-            // Bölüme göre veri yükle
-            switch(sectionName) {
-                case 'teams':
-                    loadTeams();
-                    break;
-                case 'matches':
-                    loadMatches();
-                    break;
-                case 'league':
-                    loadLeagueTable();
-                    break;
-                case 'players':
-                    loadPlayers();
-                    break;
-                case 'admin':
-                    loadAdminData();
-                    break;
-            }
-        };
-
-        window.showAdminTab = function(tabName) {
-            // Tüm admin panellerini gizle
-            document.querySelectorAll('.admin-panel').forEach(panel => {
-                panel.style.display = 'none';
-            });
-            
-            // Tab butonlarını güncelle
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Seçilen paneli göster
-            document.getElementById('admin-' + tabName).style.display = 'block';
-            event.target.classList.add('active');
-        };
-
-        window.previewLogo = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('logoPreview').innerHTML = 
-                        `<img src="${e.target.result}" class="logo-preview" alt="Logo">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        window.addTeam = async function(event) {
-            event.preventDefault();
-            
-            if (!currentUser || !isAdmin) {
-                showMessage('Takım ekleme yetkisine sahip değilsiniz!', 'error');
-                return;
-            }
-
-            const logoFile = document.getElementById('logoInput').files[0];
-            let logoUrl = '';
-
-            try {
-                // Logo yükle
-                if (logoFile) {
-                    const logoRef = ref(storage, `team-logos/${Date.now()}_${logoFile.name}`);
-                    const snapshot = await uploadBytes(logoRef, logoFile);
-                    logoUrl = await getDownloadURL(snapshot.ref);
-                }
-
-                const teamData = {
-                    name: document.getElementById('teamName').value,
-                    league: document.getElementById('teamLeague').value,
-                    manager: document.getElementById('teamManager').value,
-                    description: document.getElementById('teamDescription').value,
-                    logo: logoUrl,
-                    addedBy: currentUser.displayName || 'Anonim',
-                    adminEmail: currentUser.email,
-                    createdAt: serverTimestamp(),
-                    // İstatistikler
-                    played: 0,
-                    won: 0,
-                    drawn: 0,
-                    lost: 0,
-                    goalsFor: 0,
-                    goalsAgainst: 0,
-                    points: 0
-                };
-
-                await addDoc(collection(db, 'teams'), teamData);
-                showMessage('Takım başarıyla eklendi!', 'success');
-
-                // Form temizle
-                document.getElementById('teamName').value = '';
-                document.getElementById('teamLeague').value = '';
-                document.getElementById('teamManager').value = '';
-                document.getElementById('teamDescription').value = '';
-                document.getElementById('logoInput').value = '';
-                document.getElementById('logoPreview').innerHTML = '📸 Logo yüklemek için tıklayın';
-
-                loadTeams();
-                loadAdminData();
-            } catch (error) {
-                console.error('Takım ekleme hatası:', error);
-                showMessage('Takım eklenirken hata oluştu: ' + error.message, 'error');
-            }
-        };
-
-        window.addMatch = async function(event) {
-            event.preventDefault();
-            
-            if (!currentUser || !isAdmin) {
-                showMessage('Maç ekleme yetkisine sahip değilsiniz!', 'error');
-                return;
-            }
-
-            try {
-                const homeTeam = document.getElementById('homeTeam').value;
-                const awayTeam = document.getElementById('awayTeam').value;
-                const homeScore = parseInt(document.getElementById('homeScore').value) || 0;
-                const awayScore = parseInt(document.getElementById('awayScore').value) || 0;
-                const matchDate = document.getElementById('matchDate').value;
-                const status = document.getElementById('matchStatus').value;
-
-                const matchData = {
-                    homeTeam,
-                    awayTeam,
-                    homeScore,
-                    awayScore,
-                    matchDate: new Date(matchDate),
-                    status,
-                    addedBy: currentUser.email,
-                    createdAt: serverTimestamp()
-                };
-
-                await addDoc(collection(db, 'matches'), matchData);
-
-                // Eğer maç bittiyse istatistikleri güncelle
-                if (status === 'finished') {
-                    await updateTeamStats(homeTeam, awayTeam, homeScore, awayScore);
-                }
-
-                showMessage('Maç başarıyla eklendi!', 'success');
-                
-                // Form temizle
-                document.getElementById('homeScore').value = '';
-                document.getElementById('awayScore').value = '';
-                document.getElementById('matchDate').value = '';
-
-                loadMatches();
-                loadLeagueTable();
-            } catch (error) {
-                console.error('Maç ekleme hatası:', error);
-                showMessage('Maç eklenirken hata oluştu: ' + error.message, 'error');
-            }
-        };
-
-        window.addPlayer = async function(event) {
-            event.preventDefault();
-            
-            if (!currentUser || !isAdmin) {
-                showMessage('Oyuncu ekleme yetkisine sahip değilsiniz!', 'error');
-                return;
-            }
-
-            try {
-                const playerData = {
-                    name: document.getElementById('playerName').value,
-                    team: document.getElementById('playerTeam').value,
-                    position: document.getElementById('playerPosition').value,
-                    age: parseInt(document.getElementById('playerAge').value) || null,
-                    trophies: document.getElementById('playerTrophies').value,
-                    leagues: document.getElementById('playerLeagues').value,
-                    addedBy: currentUser.email,
-                    createdAt: serverTimestamp(),
-                    // İstatistikler
-                    matchesPlayed: 0,
-                    goals: 0,
-                    assists: 0
-                };
-
-                await addDoc(collection(db, 'players'), playerData);
-                showMessage('Oyuncu başarıyla eklendi!', 'success');
-
-                // Form temizle
-                document.getElementById('playerName').value = '';
-                document.getElementById('playerAge').value = '';
-                document.getElementById('playerTrophies').value = '';
-                document.getElementById('playerLeagues').value = '';
-
-                loadPlayers();
-                loadAdminData();
-            } catch (error) {
-                console.error('Oyuncu ekleme hatası:', error);
-                showMessage('Oyuncu eklenirken hata oluştu: ' + error.message, 'error');
-            }
-        };
-
-        window.showTeamDetail = function(teamId) {
-            const team = teams.find(t => t.id === teamId);
-            if (!team) return;
-
-            const teamPlayers = players.filter(p => p.team === team.name);
-            const teamMatches = matches.filter(m => m.homeTeam === team.name || m.awayTeam === team.name);
-
-            const modalContent = `
-                <div class="team-header">
-                    <div class="team-logo">${team.logo ? `<img src="${team.logo}" alt="${team.name}">` : '⚽'}</div>
-                    <div>
-                        <h2 class="team-name">${team.name}</h2>
-                        <p style="color: #d1d5db;">${team.league} • Menajeri: ${team.manager || 'Belirtilmemiş'}</p>
-                    </div>
-                </div>
-
-                <div class="team-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">${team.played || 0}</div>
-                        <div class="stat-label">Oynanan</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.won || 0}</div>
-                        <div class="stat-label">Galibiyet</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.drawn || 0}</div>
-                        <div class="stat-label">Beraberlik</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.lost || 0}</div>
-                        <div class="stat-label">Mağlubiyet</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${team.points || 0}</div>
-                        <div class="stat-label">Puan</div>
-                    </div>
-                </div>
-
-                <h3 style="color: #10b981; margin: 2rem 0 1rem;">👥 Kadro (${teamPlayers.length} oyuncu)</h3>
-                <div>
-                    ${teamPlayers.map(player => `
-                        <div class="player-card" onclick="showPlayerDetail('${player.id}')">
-                            <div class="player-header">
-                                <span class="player-name">${player.name}</span>
-                                <span class="player-position">${player.position}</span>
-                            </div>
-                            <div style="font-size: 0.9rem; color: #d1d5db; margin-top: 0.5rem;">
-                                ${player.age ? `${player.age} yaş` : ''} • ${player.matchesPlayed || 0} maç
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-
-                <h3 style="color: #10b981; margin: 2rem 0 1rem;">⚽ Son Maçlar</h3>
-                <div>
-                    ${teamMatches.slice(-5).map(match => `
-                        <div class="match-card">
-                            <div class="match-header">
-                                <div class="match-teams">
-                                    <span>${match.homeTeam}</span>
-                                    <span class="match-score">${match.homeScore} - ${match.awayScore}</span>
-                                    <span>${match.awayTeam}</span>
-                                </div>
-                                <span style="font-size: 0.8rem; color: #9ca3af;">
-                                    ${formatDate(match.matchDate)}
-                                </span>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-
-            document.getElementById('teamModalContent').innerHTML = modalContent;
-            document.getElementById('teamModal').style.display = 'block';
-        };
-
-        window.showPlayerDetail = function(playerId) {
-            const player = players.find(p => p.id === playerId);
-            if (!player) return;
-
-            const modalContent = `
-                <h2 style="color: #10b981; margin-bottom: 1rem;">${player.name}</h2>
-                
-                <div style="background: rgba(139, 92, 246, 0.1); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="color: #8b5cf6; margin-bottom: 1rem;">📊 Oyuncu Bilgileri</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-                        <div>
-                            <strong style="color: #10b981;">Takım:</strong><br>
-                            <span style="color: #d1d5db;">${player.team}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #10b981;">Pozisyon:</strong><br>
-                            <span style="color: #d1d5db;">${player.position}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #10b981;">Yaş:</strong><br>
-                            <span style="color: #d1d5db;">${player.age || 'Belirtilmemiş'}</span>
-                        </div>
-                        <div>
-                            <strong style="color: #10b981;">Maç Sayısı:</strong><br>
-                            <span style="color: #d1d5db;">${player.matchesPlayed || 0}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="color: #10b981; margin-bottom: 1rem;">🏆 Başarılar</h3>
-                    <div style="margin-bottom: 1rem;">
-                        <strong style="color: #10b981;">Kazandığı Kupalar:</strong><br>
-                        <span style="color: #d1d5db;">${player.trophies || 'Henüz kupa kazanmamış'}</span>
-                    </div>
-                    <div>
-                        <strong style="color: #10b981;">Oynadığı Ligler:</strong><br>
-                        <span style="color: #d1d5db;">${player.leagues || 'Bilgi yok'}</span>
-                    </div>
-                </div>
-
-                <div style="background: rgba(139, 92, 246, 0.1); padding: 1.5rem; border-radius: 8px;">
-                    <h3 style="color: #8b5cf6; margin-bottom: 1rem;">📈 İstatistikler</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #10b981;">${player.goals || 0}</div>
-                            <div style="color: #d1d5db; font-size: 0.9rem;">Gol</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #8b5cf6;">${player.assists || 0}</div>
-                            <div style="color: #d1d5db; font-size: 0.9rem;">Asist</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #10b981;">${player.matchesPlayed || 0}</div>
-                            <div style="color: #d1d5db; font-size: 0.9rem;">Maç</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('playerModalContent').innerHTML = modalContent;
-            document.getElementById('playerModal').style.display = 'block';
-        };
-
-        window.closeModal = function(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        };
-
-        async function updateTeamStats(homeTeam, awayTeam, homeScore, awayScore) {
-            try {
-                const teamsSnapshot = await getDocs(collection(db, 'teams'));
-                const teamsList = teamsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                const homeTeamData = teamsList.find(t => t.name === homeTeam);
-                const awayTeamData = teamsList.find(t => t.name === awayTeam);
-
-                if (homeTeamData && awayTeamData) {
-                    // Ev sahibi takım istatistikleri
-                    const homeStats = {
-                        played: (homeTeamData.played || 0) + 1,
-                        goalsFor: (homeTeamData.goalsFor || 0) + homeScore,
-                        goalsAgainst: (homeTeamData.goalsAgainst || 0) + awayScore
-                    };
-
-                    if (homeScore > awayScore) {
-                        homeStats.won = (homeTeamData.won || 0) + 1;
-                        homeStats.points = (homeTeamData.points || 0) + 3;
-                    } else if (homeScore === awayScore) {
-                        homeStats.drawn = (homeTeamData.drawn || 0) + 1;
-                        homeStats.points = (homeTeamData.points || 0) + 1;
-                    } else {
-                        homeStats.lost = (homeTeamData.lost || 0) + 1;
-                    }
-
-                    // Deplasman takımı istatistikleri
-                    const awayStats = {
-                        played: (awayTeamData.played || 0) + 1,
-                        goalsFor: (awayTeamData.goalsFor || 0) + awayScore,
-                        goalsAgainst: (awayTeamData.goalsAgainst || 0) + homeScore
-                    };
-
-                    if (awayScore > homeScore) {
-                        awayStats.won = (awayTeamData.won || 0) + 1;
-                        awayStats.points = (awayTeamData.points || 0) + 3;
-                    } else if (awayScore === homeScore) {
-                        awayStats.drawn = (awayTeamData.drawn || 0) + 1;
-                        awayStats.points = (awayTeamData.points || 0) + 1;
-                    } else {
-                        awayStats.lost = (awayTeamData.lost || 0) + 1;
-                    }
-
-                    // Firebase'de güncelle (Not: updateDoc import edilmeli)
-                    // Bu kısım demo amaçlı, gerçek uygulamada updateDoc kullanılmalı
-                    console.log('Takım istatistikleri güncellendi:', { homeStats, awayStats });
-                }
-            } catch (error) {
-                console.error('İstatistik güncelleme hatası:', error);
-            }
         }
 
+        // Add team
+        function addTeam(event) {
+            event.preventDefault();
+            
+            if (!currentUser || !isAdmin) {
+                showMessage('Sadece yöneticiler takım ekleyebilir!', 'error');
+                return;
+            }
+
+            const teamData = {
+                name: document.getElementById('teamName').value,
+                league: document.getElementById('teamLeague').value,
+                manager: document.getElementById('teamManager').value,
+                description: document.getElementById('teamDescription').value,
+                addedBy: currentUser.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            db.collection('teams').add(teamData)
+                .then(() => {
+                    showMessage('Takım başarıyla eklendi!', 'success');
+                    document.querySelector('form').reset();
+                })
+                .catch((error) => {
+                    console.error('Error adding team:', error);
+                    showMessage('Hata: ' + error.message, 'error');
+                });
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messagesDiv = document.getElementById('messages');
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            messagesDiv.innerHTML = `<div class="${className}">${message}</div>`;
+            
+            setTimeout(() => {
+                messagesDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Update UI
         function updateUserInterface() {
             const loginBtn = document.getElementById('loginBtn');
             const userInfo = document.getElementById('userInfo');
@@ -1598,15 +471,12 @@
             if (currentUser) {
                 loginBtn.style.display = 'none';
                 userInfo.style.display = 'flex';
-                userName.textContent = currentUser.displayName || currentUser.email || 'Kullanıcı';
+                userName.textContent = currentUser.displayName || currentUser.email;
                 
                 if (isAdmin) {
                     adminTab.style.display = 'block';
                     userName.textContent += ' (YÖNETİCİ)';
                     userName.style.color = '#10b981';
-                } else {
-                    adminTab.style.display = 'none';
-                    userName.style.color = '#ffffff';
                 }
             } else {
                 loginBtn.style.display = 'block';
@@ -1615,178 +485,22 @@
             }
         }
 
-        function showMessage(message, type) {
-            const messagesDiv = document.getElementById('messages');
-            if (messagesDiv) {
-                const messageClass = type === 'error' ? 'error-message' : 'success-message';
-                messagesDiv.innerHTML = `<div class="${messageClass}">${message}</div>`;
-                
-                setTimeout(() => {
-                    messagesDiv.innerHTML = '';
-                }, 5000);
-            }
-        }
-
-        async function loadTeams() {
-            const container = document.getElementById('teamsContainer');
+        // Auth state listener
+        auth.onAuthStateChanged((user) => {
+            console.log('Auth state changed:', user ? user.email : 'null');
+            currentUser = user;
             
-            try {
-                const querySnapshot = await getDocs(collection(db, 'teams'));
-                teams = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                if (teams.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 2rem;">Henüz takım eklenmemiş.</div>';
-                } else {
-                    container.innerHTML = teams.map(team => `
-                        <div class="team-card" onclick="showTeamDetail('${team.id}')">
-                            <div class="team-header">
-                                <div class="team-logo">
-                                    ${team.logo ? `<img src="${team.logo}" alt="${team.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">` : '⚽'}
-                                </div>
-                                <div>
-                                    <div class="team-name">${team.name}</div>
-                                    <div style="color: #d1d5db; margin-bottom: 0.5rem;">${team.league} • ${team.manager || 'Menajeri: Belirtilmemiş'}</div>
-                                    <div style="color: #9ca3af; font-size: 0.9rem;">${team.description || 'Açıklama eklenmemiş'}</div>
-                                </div>
-                            </div>
-                            <div class="team-stats">
-                                <div class="stat-item">
-                                    <div class="stat-value">${team.played || 0}</div>
-                                    <div class="stat-label">Maç</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">${team.won || 0}</div>
-                                    <div class="stat-label">G</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">${team.drawn || 0}</div>
-                                    <div class="stat-label">B</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">${team.lost || 0}</div>
-                                    <div class="stat-label">M</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">${team.points || 0}</div>
-                                    <div class="stat-label">Puan</div>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-
-                document.getElementById('teamCount').textContent = teams.length;
-            } catch (error) {
-                console.error('Takım yükleme hatası:', error);
-                container.innerHTML = '<div class="error-message">Takımlar yüklenirken hata oluştu.</div>';
+            if (user && user.email) {
+                isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
+                console.log('Is admin:', isAdmin);
+            } else {
+                isAdmin = false;
             }
-        }
-
-        async function loadMatches() {
-            const container = document.getElementById('matchesContainer');
             
-            try {
-                const querySnapshot = await getDocs(query(collection(db, 'matches'), orderBy('matchDate', 'desc')));
-                matches = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            updateUserInterface();
+        });
 
-                if (matches.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 2rem;">Henüz maç eklenmemiş.</div>';
-                } else {
-                    container.innerHTML = matches.map(match => `
-                        <div class="match-card">
-                            <div class="match-header">
-                                <div class="match-teams">
-                                    <span>${match.homeTeam}</span>
-                                    <span class="match-score">${match.homeScore || 0} - ${match.awayScore || 0}</span>
-                                    <span>${match.awayTeam}</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 1rem;">
-                                    ${match.status === 'live' ? '<span class="live-indicator">CANLI</span>' : ''}
-                                    <span style="font-size: 0.9rem; color: #9ca3af;">
-                                        ${formatDate(match.matchDate)}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-
-                // Canlı maçları sidebar'da göster
-                const liveMatches = matches.filter(m => m.status === 'live');
-                const liveContainer = document.getElementById('liveMatches');
-                
-                if (liveMatches.length === 0) {
-                    liveContainer.innerHTML = '<div style="color: #9ca3af; text-align: center; padding: 1rem;">Şu anda canlı maç yok</div>';
-                } else {
-                    liveContainer.innerHTML = liveMatches.map(match => `
-                        <div style="padding: 0.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 6px; margin-bottom: 0.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 0.9rem;">${match.homeTeam} vs ${match.awayTeam}</span>
-                                <span style="color: #10b981; font-weight: bold;">${match.homeScore}-${match.awayScore}</span>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            } catch (error) {
-                console.error('Maç yükleme hatası:', error);
-                container.innerHTML = '<div class="error-message">Maçlar yüklenirken hata oluştu.</div>';
-            }
-        }
-
-        async function loadLeagueTable() {
-            const container = document.getElementById('leagueTableContainer');
-            
-            try {
-                // Takımları puana göre sırala
-                const sortedTeams = [...teams].sort((a, b) => (b.points || 0) - (a.points || 0));
-
-                if (sortedTeams.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 2rem;">Henüz takım eklenmemiş.</div>';
-                } else {
-                    container.innerHTML = sortedTeams.map((team, index) => `
-                        <div class="table-row">
-                            <div class="position">${index + 1}</div>
-                            <div class="team-info-table">
-                                <div class="team-logo-small">
-                                    ${team.logo ? `<img src="${team.logo}" alt="${team.name}" class="team-logo-small">` : '⚽'}
-                                </div>
-                                <span>${team.name}</span>
-                            </div>
-                            <div>${team.played || 0}</div>
-                            <div>${team.won || 0}</div>
-                            <div>${(team.goalsFor || 0)}/${(team.goalsAgainst || 0)}</div>
-                            <div style="font-weight: bold; color: #10b981;">${team.points || 0}</div>
-                        </div>
-                    `).join('');
-                }
-            } catch (error) {
-                console.error('Lig tablosu yükleme hatası:', error);
-                container.innerHTML = '<div class="error-message">Lig tablosu yüklenirken hata oluştu.</div>';
-            }
-        }
-
-        async function loadPlayers() {
-            const container = document.getElementById('playersContainer');
-            
-            try {
-                const querySnapshot = await getDocs(collection(db, 'players'));
-                players = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                if (players.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 2rem;">Henüz oyuncu eklenmemiş.</div>';
-                } else {
-                    // Takıma göre gruplanmış oyuncular
-                    const playersByTeam = players.reduce((acc, player) => {
-                        if (!acc[player.team]) acc[player.team] = [];
-                        acc[player.team].push(player);
-                        return acc;
-                    }, {});
-
-                    container.innerHTML = Object.entries(playersByTeam).map(([teamName, teamPlayers]) => `
-                        <div style="margin-bottom: 2rem;">
-                            <h3 style="color: #10b981; margin-bottom: 1rem; border-bottom: 1px solid rgba(16, 185, 129, 0.3); padding-bottom: 0.5rem;">
-                                ${teamName} (${teamPlayers.length} oyuncu)
-                            </h3>
-                            <div style="display: grid; gap: 0.5rem;">
-                                ${teamPlayers.map(player => `
-                                    <div class="player-card" onclick="showPlayerDetail('${player.id}')">
+        console.log('Script loaded successfully');
+    </script>
+</body>
+</html>
