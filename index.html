@@ -766,28 +766,56 @@
 
         // Event Listeners (module scope'undan çıkarmak için)
         document.addEventListener('DOMContentLoaded', function() {
-            // Giriş butonu
-            document.getElementById('loginBtn').addEventListener('click', async function() {
+            console.log('DOM yüklendi, event listener\'lar ekleniyor...');
+            
+            // Giriş butonu - hem click hem de alternatif yöntem
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                console.log('Login butonu bulundu, event listener ekleniyor...');
+                
+                // Ana event listener
+                loginBtn.addEventListener('click', handleLogin);
+                
+                // Test için onclick da ekle
+                loginBtn.onclick = handleLogin;
+                
+                console.log('Event listener\'lar eklendi');
+            } else {
+                console.error('Login butonu bulunamadı!');
+            }
+
+            // Login fonksiyonu
+            async function handleLogin() {
+                console.log('🔥 Login fonksiyonu çalıştı!');
                 try {
                     const provider = new GoogleAuthProvider();
+                    console.log('Google provider oluşturuldu, popup açılıyor...');
                     const result = await signInWithPopup(auth, provider);
+                    console.log('Giriş başarılı:', result.user);
                     showMessage('Başarıyla giriş yapıldı!', 'success');
                 } catch (error) {
                     console.error('Giriş hatası:', error);
                     showMessage('Giriş yapılırken hata oluştu: ' + error.message, 'error');
                 }
-            });
+            }
 
             // Çıkış butonu
-            document.getElementById('signOutBtn').addEventListener('click', async function() {
-                try {
-                    await firebaseSignOut(auth);
-                    showMessage('Başarıyla çıkış yapıldı!', 'success');
-                } catch (error) {
-                    console.error('Çıkış hatası:', error);
-                    showMessage('Çıkış yapılırken hata oluştu: ' + error.message, 'error');
-                }
-            });
+            const signOutBtn = document.getElementById('signOutBtn');
+            if (signOutBtn) {
+                console.log('SignOut butonu bulundu, event listener ekleniyor...');
+                signOutBtn.addEventListener('click', async function() {
+                    console.log('Çıkış butonuna tıklandı!');
+                    try {
+                        await firebaseSignOut(auth);
+                        showMessage('Başarıyla çıkış yapıldı!', 'success');
+                    } catch (error) {
+                        console.error('Çıkış hatası:', error);
+                        showMessage('Çıkış yapılırken hata oluştu: ' + error.message, 'error');
+                    }
+                });
+            } else {
+                console.error('SignOut butonu bulunamadı!');
+            }
 
             // Navigation menüsü
             document.querySelectorAll('.nav-link').forEach(link => {
