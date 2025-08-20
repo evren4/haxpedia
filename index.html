@@ -764,40 +764,72 @@
             'admin@haxpedia.com'
         ];
 
-        // Event Listeners (module scope'undan çıkarmak için)
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM yüklendi, event listener\'lar ekleniyor...');
+        // DOM tamamen yüklenene kadar bekle
+        function initializeApp() {
+            console.log('Firebase app başlatılıyor...');
             
-            // Giriş butonu - hem click hem de alternatif yöntem
+            // Giriş butonu
             const loginBtn = document.getElementById('loginBtn');
             if (loginBtn) {
-                console.log('Login butonu bulundu, event listener ekleniyor...');
-                
-                // Ana event listener
-                loginBtn.addEventListener('click', handleLogin);
-                
-                // Test için onclick da ekle
-                loginBtn.onclick = handleLogin;
-                
-                console.log('Event listener\'lar eklendi');
+                console.log('Login butonu bulundu, event ekleniyor...');
+                loginBtn.addEventListener('click', async function() {
+                    console.log('Login butonuna tıklandı!');
+                    try {
+                        const provider = new GoogleAuthProvider();
+                        const result = await signInWithPopup(auth, provider);
+                        console.log('Giriş başarılı:', result.user);
+                    } catch (error) {
+                        console.error('Giriş hatası:', error);
+                    }
+                });
             } else {
-                console.error('Login butonu bulunamadı!');
+                console.error('Login butonu bulunamadı! DOM henüz hazır değil.');
+                // 1 saniye sonra tekrar dene
+                setTimeout(initializeApp, 1000);
+                return;
             }
 
-            // Login fonksiyonu
-            async function handleLogin() {
-                console.log('🔥 Login fonksiyonu çalıştı!');
-                try {
-                    const provider = new GoogleAuthProvider();
-                    console.log('Google provider oluşturuldu, popup açılıyor...');
-                    const result = await signInWithPopup(auth, provider);
-                    console.log('Giriş başarılı:', result.user);
-                    showMessage('Başarıyla giriş yapıldı!', 'success');
-                } catch (error) {
-                    console.error('Giriş hatası:', error);
-                    showMessage('Giriş yapılırken hata oluştu: ' + error.message, 'error');
-                }
+            // Çıkış butonu
+            const signOutBtn = document.getElementById('signOutBtn');
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', async function() {
+                    try {
+                        await firebaseSignOut(auth);
+                    } catch (error) {
+                        console.error('Çıkış hatası:', error);
+                    }
+                });
             }
+
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionName = this.getAttribute('data-section');
+                    showSection(sectionName);
+                });
+            });
+
+            console.log('Event listener\'lar başarıyla eklendi');
+            updateUserInterface();
+            loadTeams();
+        }
+
+        // Farklı yöntemlerle DOM hazır olana kadar bekle
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            // DOM zaten hazır
+            initializeApp();
+        }
+
+        // Backup: window load event
+        window.addEventListener('load', function() {
+            if (!document.getElementById('loginBtn').onclick) {
+                console.log('Backup initialization...');
+                initializeApp();
+            }
+        });
 
             // Çıkış butonu
             const signOutBtn = document.getElementById('signOutBtn');
