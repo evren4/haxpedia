@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haxpedia - Haxball Ansiklopedisi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0b2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(26, 11, 46, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #10b981;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #8b5cf6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: #e5e7eb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-menu a:hover {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .auth-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 20px;
+            border: 1px solid #10b981;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .featured-section {
+            background: rgba(26, 11, 46, 0.6);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .add-team-form {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .teams-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-3px);
+            border-color: #10b981;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-info {
+            color: #d1d5db;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .widget {
+            background: rgba(26, 11, 46, 0.6);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .widget h3 {
+            color: #10b981;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: #8b5cf6;
+            padding: 2rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fca5a5;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #6ee7b7;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .auth-section {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">⚽ Haxpedia</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" onclick="showSection('leagues')">Ligler</a></li>
+                    <li><a href="#" onclick="showSection('teams')">Takımlar</a></li>
+                    <li><a href="#" onclick="showSection('players')">Oyuncular</a></li>
+                    <li><a href="#" onclick="showSection('matches')">Maçlar</a></li>
+                </ul>
+            </nav>
+            <div class="auth-section">
+                <button class="auth-btn" id="loginBtn" onclick="signInWithGoogle()">🔑 Giriş Yap</button>
+                <div class="user-info" id="userInfo">
+                    <span id="userName">Kullanıcı</span>
+                    <button class="auth-btn" onclick="signOut()">Çıkış</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Haxpedia</h1>
+        <p>Türk Haxball sahnesinin merkezi. Takımınızı ekleyin, oyuncuları takip edin!</p>
+    </section>
+
+    <div class="main-content">
+        <main class="featured-section">
+            <!-- Takım Ekleme Formu - Sadece Adminler İçin -->
+            <div class="add-team-form" id="addTeamForm" style="display: none;">
+                <h2 class="section-title">➕ Yeni Takım Ekle (Yönetici)</h2>
+                <div id="messages"></div>
+                <form onsubmit="addTeam(event)">
+                    <div class="form-group">
+                        <label for="teamName">Takım Adı:</label>
+                        <input type="text" id="teamName" placeholder="Örn: Galatasaray HB" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teamLeague">Lig:</label>
+                        <input type="text" id="teamLeague" placeholder="Örn: Süper Lig" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teamManager">Takım Menajeri:</label>
+                        <input type="text" id="teamManager" placeholder="Menajerin adı">
+                    </div>
+                    <div class="form-group">
+                        <label for="teamDescription">Açıklama:</label>
+                        <textarea id="teamDescription" rows="3" placeholder="Takım hakkında kısa bilgi..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Takım Ekle</button>
+                </form>
+            </div>
+
+            <!-- Normal Kullanıcılar İçin Bilgi Mesajı -->
+            <div class="user-info-message" id="userInfoMessage" style="display: none;">
+                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1)); border: 1px solid #8b5cf6; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">📖 Haxpedia'ya Hoş Geldiniz!</h3>
+                    <p style="color: #d1d5db; margin-bottom: 1rem;">Türk Haxball sahnesinin en kapsamlı bilgi kaynağını keşfedin.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="color: #10b981; font-weight: bold;">🏆 Takım Bilgileri</div>
+                            <div style="color: #d1d5db; font-size: 0.9rem;">Tüm takımları görüntüleyebilirsiniz</div>
+                        </div>
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="color: #8b5cf6; font-weight: bold;">📊 İstatistikler</div>
+                            <div style="color: #d1d5db; font-size: 0.9rem;">Güncel istatistikleri takip edin</div>
+                        </div>
+                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="color: #10b981; font-weight: bold;">📢 Haberler</div>
+                            <div style="color: #d1d5db; font-size: 0.9rem;">Son gelişmeleri öğrenin</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(139, 92, 246, 0.05); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                        <p style="color: #d1d5db; font-size: 0.9rem;">
+                            💡 <strong>İçerik Ekleme:</strong> Takım ekleme ve düzenleme yetkileri sadece site yöneticilerinde bulunmaktadır.
+                            Katkıda bulunmak için yöneticilerle iletişime geçebilirsiniz.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Takımlar Listesi -->
+            <h2 class="section-title">🏆 Kayıtlı Takımlar</h2>
+            <div id="teamsContainer" class="loading">
+                Takımlar yükleniyor...
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget">
+                <h3>📊 İstatistikler</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="text-align: center; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: bold; color: #10b981;" id="teamCount">0</div>
+                        <div style="color: #d1d5db; font-size: 0.9rem;">Takım</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: bold; color: #8b5cf6;" id="userCount">0</div>
+                        <div style="color: #d1d5db; font-size: 0.9rem;">Kullanıcı</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <h3>📢 Son Aktiviteler</h3>
+                <div id="recentActivity">
+                    <div style="color: #9ca3af; text-align: center; padding: 1rem;">
+                        Henüz aktivite yok
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <h3>👑 Yönetici Sistemi</h3>
+                <div style="color: #d1d5db; line-height: 1.6;">
+                    <div style="background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <p><strong style="color: #10b981;">Sadece Yöneticiler:</strong></p>
+                        <ul style="margin-left: 1rem; color: #e5e7eb; margin-top: 0.5rem;">
+                            <li>✅ Takım ekleyebilir</li>
+                            <li>✅ İçerik düzenleyebilir</li>
+                            <li>✅ Maç sonuçları girebilir</li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px;">
+                        <p><strong style="color: #8b5cf6;">Tüm Kullanıcılar:</strong></p>
+                        <ul style="margin-left: 1rem; color: #e5e7eb; margin-top: 0.5rem;">
+                            <li>📖 Takımları görüntüleyebilir</li>
+                            <li>📊 İstatistikleri takip edebilir</li>
+                            <li>📢 Haberleri okuyabilir</li>
+                        </ul>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #9ca3af; text-align: center;">
+                        💌 Admin olmak için: <strong>evrenalbayrak96@gmail.com</strong>
+                    </p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Firebase yapılandırması - Kendi Firebase projenizin bilgilerini buraya ekleyin
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase yapılandırması - Sizin Firebase projenizin bilgileri
+        const firebaseConfig = {
+            apiKey: "AIzaSyDo0B8IIDK9Xeq4kIa3I0YK45wJS6vyzGY",
+            authDomain: "haxpedia-e5054.firebaseapp.com",
+            projectId: "haxpedia-e5054",
+            storageBucket: "haxpedia-e5054.firebasestorage.app",
+            messagingSenderId: "799081899351",
+            appId: "1:799081899351:web:66943d0281fad08b910a12",
+            measurementId: "G-NDCVR1Y354"
+        };
+
+       // Admin kullanıcıları (email listesi)
+const ADMIN_EMAILS = [
+    'evrenalbayrak96@gmail.com',
+    'admin@haxpedia.com',
+];
+
+// Firebase başlatma
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+let isDemo = false;
+
+let currentUser = null;
+let isAdmin = false;
+
+        // Demo data storage
+        let demoTeams = [
+            {
+                id: '1',
+                name: 'Galatasaray HB',
+                league: 'Süper Lig',
+                manager: 'Ali Yılmaz',
+                description: 'Türk haxball sahnesinin köklü takımlarından biri',
+                createdAt: new Date('2025-01-15'),
+                addedBy: 'Demo User'
+            },
+            {
+                id: '2',
+                name: 'Fenerbahçe HB',
+                league: 'Süper Lig',
+                manager: 'Mehmet Kaya',
+                description: 'Genç ve dinamik kadrosuyla dikkat çeken takım',
+                createdAt: new Date('2025-01-16'),
+                addedBy: 'Demo User'
+            }
+        ];
+
+        let currentUser = null;
+
+        // Global fonksiyonlar
+        window.signInWithGoogle = async function() {
+            try {
+                // Popup yerine redirect kullan (GitHub Pages için daha güvenli)
+                const provider = new GoogleAuthProvider();
+                
+                // Popup çalışmazsa redirect'e geç
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    console.log('Popup ile giriş başarılı:', result.user);
+                    showMessage('Başarıyla giriş yapıldı!', 'success');
+                } catch (popupError) {
+                    console.log('Popup hatası, redirect deneniyor:', popupError);
+                    showMessage('Giriş sayfasına yönlendiriliyorsunuz...', 'success');
+                    
+                    // Redirect ile dene
+                    const { signInWithRedirect } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+                    await signInWithRedirect(auth, provider);
+                }
+            } catch (error) {
+                console.error('Giriş hatası:', error);
+                showMessage('Giriş yapılırken hata oluştu. Sayfa yenilenecek...', 'error');
+                // Sayfa yenileme ile tekrar dene
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+        };
+
+        window.signOut = async function() {
+            try {
+                await firebaseSignOut(auth);
+                console.log('Çıkış başarılı');
+                showMessage('Başarıyla çıkış yapıldı!', 'success');
+            } catch (error) {
+                console.error('Çıkış hatası:', error);
+                showMessage('Çıkış yapılırken hata oluştu: ' + error.message, 'error');
+            }
+        };
+
+        window.addTeam = async function(event) {
+            event.preventDefault();
+            
+            if (!currentUser) {
+                showMessage('Takım eklemek için giriş yapmalısınız!', 'error');
+                return;
+            }
+
+            if (!isAdmin) {
+                showMessage('Takım ekleme yetkisine sahip değilsiniz! Sadece yöneticiler takım ekleyebilir.', 'error');
+                return;
+            }
+
+            const teamData = {
+                name: document.getElementById('teamName').value,
+                league: document.getElementById('teamLeague').value,
+                manager: document.getElementById('teamManager').value,
+                description: document.getElementById('teamDescription').value,
+                addedBy: currentUser.displayName || 'Anonim',
+                adminEmail: currentUser.email,
+                createdAt: new Date()
+            };
+
+            try {
+                // Firebase mode
+                await addDoc(collection(db, 'teams'), {
+                    ...teamData,
+                    createdAt: serverTimestamp()
+                });
+                showMessage('Takım başarıyla eklendi!', 'success');
+
+                // Form temizle
+                document.getElementById('teamName').value = '';
+                document.getElementById('teamLeague').value = '';
+                document.getElementById('teamManager').value = '';
+                document.getElementById('teamDescription').value = '';
+
+                // Listeyi güncelle
+                loadTeams();
+            } catch (error) {
+                console.error('Takım ekleme hatası:', error);
+                showMessage('Takım eklenirken hata oluştu: ' + error.message, 'error');
+            }
+        };
+
+        window.showSection = function(section) {
+            showMessage(`${section} bölümü geliştiriliyor...`, 'success');
+        };
+
+        function updateUserInterface() {
+            const loginBtn = document.getElementById('loginBtn');
+            const userInfo = document.getElementById('userInfo');
+            const addTeamForm = document.getElementById('addTeamForm');
+            const userInfoMessage = document.getElementById('userInfoMessage');
+            const userName = document.getElementById('userName');
+
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userName.textContent = currentUser.displayName || 'Kullanıcı';
+                
+                // Admin kontrolü
+                if (isAdmin) {
+                    addTeamForm.style.display = 'block';
+                    userInfoMessage.style.display = 'none';
+                    userName.textContent += ' (YÖNETİCİ)';
+                    userName.style.color = '#10b981';
+                    showMessage('Yönetici olarak giriş yaptınız!', 'success');
+                } else {
+                    addTeamForm.style.display = 'none';
+                    userInfoMessage.style.display = 'block';
+                    userName.style.color = '#ffffff';
+                }
+            } else {
+                loginBtn.style.display = 'block';
+                userInfo.style.display = 'none';
+                addTeamForm.style.display = 'none';
+                userInfoMessage.style.display = 'none';
+            }
+        }
+
+        function showMessage(message, type) {
+            const messagesDiv = document.getElementById('messages');
+            const messageClass = type === 'error' ? 'error-message' : 'success-message';
+            messagesDiv.innerHTML = `<div class="${messageClass}">${message}</div>`;
+            
+            setTimeout(() => {
+                messagesDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        async function loadTeams() {
+            const container = document.getElementById('teamsContainer');
+            
+            try {
+                console.log('Takımlar yükleniyor...');
+                const querySnapshot = await getDocs(collection(db, 'teams'));
+                const teams = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                console.log('Yüklenen takımlar:', teams);
+
+                if (teams.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 2rem;">Henüz takım eklenmemiş. İlk takımı sen ekle!</div>';
+                } else {
+                    container.innerHTML = teams.map(team => `
+                        <div class="team-card">
+                            <div class="team-name">${team.name}</div>
+                            <div class="team-info"><strong>Lig:</strong> ${team.league}</div>
+                            <div class="team-info"><strong>Menajeri:</strong> ${team.manager || 'Belirtilmemiş'}</div>
+                            <div class="team-info">${team.description || 'Açıklama eklenmemiş'}</div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #9ca3af;">
+                                ${team.addedBy} tarafından eklendi • ${formatDate(team.createdAt)}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // İstatistikleri güncelle
+                document.getElementById('teamCount').textContent = teams.length;
+                
+            } catch (error) {
+                console.error('Takım yükleme hatası:', error);
+                container.innerHTML = '<div class="error-message">Takımlar yüklenirken hata oluştu: ' + error.message + '</div>';
+            }
+        }
+
+        function formatDate(date) {
+            if (!date) return 'Bilinmiyor';
+            const d = date.toDate ? date.toDate() : new Date(date);
+            return d.toLocaleDateString('tr-TR');
+        }
+
+        // Auth state listener
+        onAuthStateChanged(auth, (user) => {
+            console.log('Auth state değişti:', user);
+            currentUser = user;
+            
+            // Admin kontrolü - ADMIN_EMAILS tanımlı mı kontrol et
+            if (user && user.email && typeof ADMIN_EMAILS !== 'undefined') {
+                isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
+                console.log('Kullanıcı admin mi?', isAdmin, 'Email:', user.email);
+            } else {
+                isAdmin = false;
+                if (typeof ADMIN_EMAILS === 'undefined') {
+                    console.error('ADMIN_EMAILS tanımlı değil!');
+                }
+            }
+            
+            updateUserInterface();
+            if (user) {
+                console.log('Kullanıcı giriş yaptı:', user.displayName, '- Admin:', isAdmin);
+                loadTeams();
+            } else {
+                console.log('Kullanıcı çıkış yaptı');
+            }
+        });
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Sayfa yüklendi, Firebase bağlantısı kontrol ediliyor...');
+            
+            // Redirect result kontrolü (sayfa yenilendikten sonra)
+            try {
+                const { getRedirectResult } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+                const result = await getRedirectResult(auth);
+                if (result) {
+                    console.log('Redirect ile giriş tamamlandı:', result.user);
+                    showMessage('Giriş başarılı!', 'success');
+                }
+            } catch (error) {
+                console.log('Redirect result hatası (normal):', error);
+            }
+            
+            updateUserInterface();
+            loadTeams();
+        });
+    </script>
+</body>
+</html>
