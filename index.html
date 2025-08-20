@@ -390,22 +390,22 @@
         import { getFirestore, collection, addDoc, getDocs, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        // Firebase yapılandırması (Demo - Kendi projenizle değiştirin)
+        // Firebase yapılandırması - Sizin Firebase projenizin bilgileri
         const firebaseConfig = {
-            // Buraya kendi Firebase config bilgilerinizi ekleyin
-            // Şimdilik demo modunda çalışacak
+            apiKey: "AIzaSyDo0B8IIDK9Xeq4kIa3I0YK45wJS6vyzGY",
+            authDomain: "haxpedia-e5054.firebaseapp.com",
+            projectId: "haxpedia-e5054",
+            storageBucket: "haxpedia-e5054.firebasestorage.app",
+            messagingSenderId: "799081899351",
+            appId: "1:799081899351:web:66943d0281fad08b910a12",
+            measurementId: "G-NDCVR1Y354"
         };
 
-        // Firebase başlatma (Demo mode)
-        let app, db, auth;
-        let isDemo = true; // Firebase config olmadığı için demo mode
-
-        if (Object.keys(firebaseConfig).length > 0) {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-            isDemo = false;
-        }
+        // Firebase başlatma
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        let isDemo = false; // Artık gerçek Firebase kullanıyoruz
 
         // Demo data storage
         let demoTeams = [
@@ -433,35 +433,24 @@
 
         // Global fonksiyonlar
         window.signInWithGoogle = async function() {
-            if (isDemo) {
-                // Demo login
-                currentUser = { displayName: 'Demo Kullanıcı', email: 'demo@haxpedia.com' };
-                updateUserInterface();
-                showMessage('Demo modunda giriş yapıldı!', 'success');
-                return;
-            }
-
             try {
                 const provider = new GoogleAuthProvider();
                 const result = await signInWithPopup(auth, provider);
+                console.log('Giriş başarılı:', result.user);
                 showMessage('Başarıyla giriş yapıldı!', 'success');
             } catch (error) {
+                console.error('Giriş hatası:', error);
                 showMessage('Giriş yapılırken hata oluştu: ' + error.message, 'error');
             }
         };
 
         window.signOut = async function() {
-            if (isDemo) {
-                currentUser = null;
-                updateUserInterface();
-                showMessage('Çıkış yapıldı!', 'success');
-                return;
-            }
-
             try {
                 await firebaseSignOut(auth);
+                console.log('Çıkış başarılı');
                 showMessage('Başarıyla çıkış yapıldı!', 'success');
             } catch (error) {
+                console.error('Çıkış hatası:', error);
                 showMessage('Çıkış yapılırken hata oluştu: ' + error.message, 'error');
             }
         };
@@ -484,19 +473,12 @@
             };
 
             try {
-                if (isDemo) {
-                    // Demo mode - memory storage
-                    teamData.id = Date.now().toString();
-                    demoTeams.push(teamData);
-                    showMessage('Takım başarıyla eklendi! (Demo Mode)', 'success');
-                } else {
-                    // Firebase mode
-                    await addDoc(collection(db, 'teams'), {
-                        ...teamData,
-                        createdAt: serverTimestamp()
-                    });
-                    showMessage('Takım başarıyla eklendi!', 'success');
-                }
+                // Firebase mode
+                await addDoc(collection(db, 'teams'), {
+                    ...teamData,
+                    createdAt: serverTimestamp()
+                });
+                showMessage('Takım başarıyla eklendi!', 'success');
 
                 // Form temizle
                 document.getElementById('teamName').value = '';
@@ -507,6 +489,7 @@
                 // Listeyi güncelle
                 loadTeams();
             } catch (error) {
+                console.error('Takım ekleme hatası:', error);
                 showMessage('Takım eklenirken hata oluştu: ' + error.message, 'error');
             }
         };
@@ -547,17 +530,14 @@
             const container = document.getElementById('teamsContainer');
             
             try {
-                let teams = [];
-                
-                if (isDemo) {
-                    teams = demoTeams;
-                } else {
-                    const querySnapshot = await getDocs(collection(db, 'teams'));
-                    teams = querySnapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                }
+                console.log('Takımlar yükleniyor...');
+                const querySnapshot = await getDocs(collection(db, 'teams'));
+                const teams = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                console.log('Yüklenen takımlar:', teams);
 
                 if (teams.length === 0) {
                     container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 2rem;">Henüz takım eklenmemiş. İlk takımı sen ekle!</div>';
@@ -579,6 +559,7 @@
                 document.getElementById('teamCount').textContent = teams.length;
                 
             } catch (error) {
+                console.error('Takım yükleme hatası:', error);
                 container.innerHTML = '<div class="error-message">Takımlar yüklenirken hata oluştu: ' + error.message + '</div>';
             }
         }
@@ -589,25 +570,24 @@
             return d.toLocaleDateString('tr-TR');
         }
 
-        // Auth state listener (sadece Firebase mode için)
-        if (!isDemo && auth) {
-            onAuthStateChanged(auth, (user) => {
-                currentUser = user;
-                updateUserInterface();
-                if (user) {
-                    loadTeams();
-                }
-            });
-        }
+        // Auth state listener
+        onAuthStateChanged(auth, (user) => {
+            console.log('Auth state değişti:', user);
+            currentUser = user;
+            updateUserInterface();
+            if (user) {
+                console.log('Kullanıcı giriş yaptı:', user.displayName);
+                loadTeams();
+            } else {
+                console.log('Kullanıcı çıkış yaptı');
+            }
+        });
 
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Sayfa yüklendi, Firebase bağlantısı kontrol ediliyor...');
             updateUserInterface();
             loadTeams();
-            
-            if (isDemo) {
-                showMessage('Demo modunda çalışıyorsunuz. Gerçek veritabanı için Firebase ayarlarını yapılandırın.', 'success');
-            }
         });
     </script>
 </body>
