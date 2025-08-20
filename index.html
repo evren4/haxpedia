@@ -742,24 +742,23 @@
             setTimeout(() => loadTeams(), 1000);
         }
 
-        function loadTeams() {
-            db.collection('teams').orderBy('points', 'desc').get().then(snapshot => {
-                var html = '';
-                var teamCount = 0;
-                teams = [];
+       function loadTeams() {
+    db.collection('teams').orderBy('points', 'desc').get().then(snapshot => {
+        var html = '';
+        var teamCount = 0;
+        teams = []; // Diziyi temizle
+        
+        if (snapshot.empty) {
+            html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-top:0.5rem;">İlk takımı eklemek için yukarıdaki formu kullanın</div></div>';
+        } else {
+            snapshot.forEach(doc => {
+                var team = doc.data();
+                team.id = doc.id;
+                teams.push(team); // Teams dizisine ekle
+                teamCount++;
                 
-                if (snapshot.empty) {
-                    html = '<div class="empty-state"><div class="empty-state-icon">⚽</div><div>Henüz takım eklenmemiş</div><div style="font-size:0.85rem;color:#6b7280;margin-top:0.5rem;">İlk takımı eklemek için yukarıdaki formu kullanın</div></div>';
-                } else {
-                    snapshot.forEach(doc => {
-                        var team = doc.data();
-                        team.id = doc.id;
-                        teams.push(team);
-                        teamCount++;
-                        
-                        var logoHtml = team.logo ? 
-                            '<img src="' + team.logo + '" class="team-logo" alt="' + team.name + '">' : 
-                            '<div class="team-logo">⚽</div>';
+                var logoHtml = team.logo ? 
+                    '<img src="' + team.logo + '" class=
                         
                         html += '<div class="team-card">' +
                             '<div class="team-header">' + logoHtml +
@@ -782,6 +781,8 @@
                 
                 document.getElementById('teamsList').innerHTML = html;
                 document.getElementById('teamCount').textContent = teamCount;
+// Takımlar yüklendikten SONRA select option'ları güncelle
+        loadTeamOptions();
             }).catch(err => {
                 document.getElementById('teamsList').innerHTML = '<div class="empty-state"><div style="color:#ef4444;">Yükleme hatası: ' + err.message + '</div></div>';
             });
@@ -851,7 +852,7 @@
                     document.getElementById('teamAdminPanel').style.display = 'block';
                     document.getElementById('userName').textContent += ' (Yönetici)';
                 }
-                loadTeams();
+                
                 loadTeamOptions();
             } else {
                 document.getElementById('loginBtn').style.display = 'block';
