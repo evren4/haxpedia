@@ -638,12 +638,15 @@
             console.log('Auth state değişti:', user);
             currentUser = user;
             
-            // Admin kontrolü
-            if (user && user.email) {
+            // Admin kontrolü - ADMIN_EMAILS tanımlı mı kontrol et
+            if (user && user.email && typeof ADMIN_EMAILS !== 'undefined') {
                 isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
                 console.log('Kullanıcı admin mi?', isAdmin, 'Email:', user.email);
             } else {
                 isAdmin = false;
+                if (typeof ADMIN_EMAILS === 'undefined') {
+                    console.error('ADMIN_EMAILS tanımlı değil!');
+                }
             }
             
             updateUserInterface();
