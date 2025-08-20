@@ -315,9 +315,9 @@
 
     <div class="main-content">
         <main class="featured-section">
-            <!-- Takım Ekleme Formu -->
+            <!-- Takım Ekleme Formu - Sadece Adminler İçin -->
             <div class="add-team-form" id="addTeamForm" style="display: none;">
-                <h2 class="section-title">➕ Yeni Takım Ekle</h2>
+                <h2 class="section-title">➕ Yeni Takım Ekle (Yönetici)</h2>
                 <div id="messages"></div>
                 <form onsubmit="addTeam(event)">
                     <div class="form-group">
@@ -338,6 +338,34 @@
                     </div>
                     <button type="submit" class="submit-btn">Takım Ekle</button>
                 </form>
+            </div>
+
+            <!-- Normal Kullanıcılar İçin Bilgi Mesajı -->
+            <div class="user-info-message" id="userInfoMessage" style="display: none;">
+                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1)); border: 1px solid #8b5cf6; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">📖 Haxpedia'ya Hoş Geldiniz!</h3>
+                    <p style="color: #d1d5db; margin-bottom: 1rem;">Türk Haxball sahnesinin en kapsamlı bilgi kaynağını keşfedin.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="color: #10b981; font-weight: bold;">🏆 Takım Bilgileri</div>
+                            <div style="color: #d1d5db; font-size: 0.9rem;">Tüm takımları görüntüleyebilirsiniz</div>
+                        </div>
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="color: #8b5cf6; font-weight: bold;">📊 İstatistikler</div>
+                            <div style="color: #d1d5db; font-size: 0.9rem;">Güncel istatistikleri takip edin</div>
+                        </div>
+                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="color: #10b981; font-weight: bold;">📢 Haberler</div>
+                            <div style="color: #d1d5db; font-size: 0.9rem;">Son gelişmeleri öğrenin</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(139, 92, 246, 0.05); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                        <p style="color: #d1d5db; font-size: 0.9rem;">
+                            💡 <strong>İçerik Ekleme:</strong> Takım ekleme ve düzenleme yetkileri sadece site yöneticilerinde bulunmaktadır.
+                            Katkıda bulunmak için yöneticilerle iletişime geçebilirsiniz.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- Takımlar Listesi -->
@@ -372,13 +400,18 @@
             </div>
 
             <div class="widget">
-                <h3>🎯 Nasıl Kullanılır?</h3>
-                <ol style="color: #d1d5db; line-height: 1.6; padding-left: 1.2rem;">
-                    <li>Google ile giriş yapın</li>
-                    <li>Takımınızı ekleyin</li>
-                    <li>Oyuncu bilgilerini güncelleyin</li>
-                    <li>Maç sonuçlarını paylaşın</li>
-                </ol>
+                <h3>👑 Yönetici Bilgileri</h3>
+                <div style="color: #d1d5db; line-height: 1.6;">
+                    <p><strong>Sadece yöneticiler:</strong></p>
+                    <ul style="margin-left: 1rem; color: #10b981;">
+                        <li>Takım ekleyebilir</li>
+                        <li>İçerik düzenleyebilir</li>
+                        <li>Kullanıcıları yönetebilir</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #9ca3af;">
+                        Admin olmak için site yöneticisiyle iletişime geçin.
+                    </p>
+                </div>
             </div>
         </aside>
     </div>
@@ -463,12 +496,18 @@
                 return;
             }
 
+            if (!isAdmin) {
+                showMessage('Takım ekleme yetkisine sahip değilsiniz! Sadece yöneticiler takım ekleyebilir.', 'error');
+                return;
+            }
+
             const teamData = {
                 name: document.getElementById('teamName').value,
                 league: document.getElementById('teamLeague').value,
                 manager: document.getElementById('teamManager').value,
                 description: document.getElementById('teamDescription').value,
                 addedBy: currentUser.displayName || 'Anonim',
+                adminEmail: currentUser.email,
                 createdAt: new Date()
             };
 
@@ -502,17 +541,31 @@
             const loginBtn = document.getElementById('loginBtn');
             const userInfo = document.getElementById('userInfo');
             const addTeamForm = document.getElementById('addTeamForm');
+            const userInfoMessage = document.getElementById('userInfoMessage');
             const userName = document.getElementById('userName');
 
             if (currentUser) {
                 loginBtn.style.display = 'none';
                 userInfo.style.display = 'flex';
-                addTeamForm.style.display = 'block';
                 userName.textContent = currentUser.displayName || 'Kullanıcı';
+                
+                // Admin kontrolü
+                if (isAdmin) {
+                    addTeamForm.style.display = 'block';
+                    userInfoMessage.style.display = 'none';
+                    userName.textContent += ' (YÖNETİCİ)';
+                    userName.style.color = '#10b981';
+                    showMessage('Yönetici olarak giriş yaptınız!', 'success');
+                } else {
+                    addTeamForm.style.display = 'none';
+                    userInfoMessage.style.display = 'block';
+                    userName.style.color = '#ffffff';
+                }
             } else {
                 loginBtn.style.display = 'block';
                 userInfo.style.display = 'none';
                 addTeamForm.style.display = 'none';
+                userInfoMessage.style.display = 'none';
             }
         }
 
@@ -574,9 +627,18 @@
         onAuthStateChanged(auth, (user) => {
             console.log('Auth state değişti:', user);
             currentUser = user;
+            
+            // Admin kontrolü
+            if (user && user.email) {
+                isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
+                console.log('Kullanıcı admin mi?', isAdmin, 'Email:', user.email);
+            } else {
+                isAdmin = false;
+            }
+            
             updateUserInterface();
             if (user) {
-                console.log('Kullanıcı giriş yaptı:', user.displayName);
+                console.log('Kullanıcı giriş yaptı:', user.displayName, '- Admin:', isAdmin);
                 loadTeams();
             } else {
                 console.log('Kullanıcı çıkış yaptı');
